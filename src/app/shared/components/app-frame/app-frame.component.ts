@@ -18,4 +18,8 @@ export class AppFrameComponent implements OnInit {
     this.router.navigate(['account/' + path]);
   }
 
+  get() {
+    this.router.navigate(['account/purchase']);
+  }
+
 }
