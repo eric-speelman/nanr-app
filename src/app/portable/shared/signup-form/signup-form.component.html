@@ -1,0 +1,30 @@
+<form [formGroup]="signupForm" (ngSubmit)="signup()">
+  <mat-card>
+    <mat-card-header>
+        <mat-card-title>Signup</mat-card-title>
+    </mat-card-header>
+    <mat-card-content fxLayout="column" fxLayoutGap="8px">
+      <mat-form-field>
+        <input matInput placeholder="Email" autocomplete="email" formControlName="email">
+      </mat-form-field>
+      <div class="error" *ngIf="(submitted$ | async) && (signupForm.controls.email.errors)">Please enter a valid email address</div>
+      <div class="error" *ngIf="(serverErrors$ | async).email">That email address is already being used</div>
+      <mat-form-field>
+          <input matInput placeholder="Username" autocomplete="username" formControlName="username">
+        </mat-form-field>
+        <div class="error" *ngIf="(submitted$ | async) && signupForm.controls.username.errors">Please enter a username between 3 and 12 characters containing only numbers, letters, - and _</div>
+        <div class="error" *ngIf="(serverErrors$ | async).username">That username is already being used</div>
+      <mat-form-field>
+          <input type="password" matInput placeholder="Password" autocomplete="new-password" formControlName="password">
+      </mat-form-field>
+      <div class="error" *ngIf="(submitted$ | async) && signupForm.controls.password.errors">Please enter a password between 7 and 32 characters</div>
+      <mat-form-field>
+          <input type="password" matInput placeholder="Confirm Password" formControlName="confirmPassword">
+      </mat-form-field>
+      <div class="error" *ngIf="(submitted$ | async) && !(passwordMatch$ | async)">Passwords don't match</div>
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-raised-button color="primary" type="submit" [disabled]="loading$ | async">Signup</button>
+    </mat-card-actions>
+  </mat-card>
+</form>

@@ -1,0 +1,24 @@
+<div fxLayout="row" class="full-width full-height" fxLayoutAlign="center center">
+    <form class="login-form" fxFlex="0 1 600px" [formGroup]="loginForm" (ngSubmit)="login()">
+      <mat-card class="full-width">
+        <mat-card-header>
+          <mat-card-title>Login</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div fxLayout="column">
+            <mat-form-field>
+              <input matInput placeholder="Email" autocomplete="email" formControlName="email"/>
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput type="password" placeholder="Password" autocomplete="current-password" formControlName="password" />
+            </mat-form-field>
+            <div class="error" *ngIf="hasError$ | async">Incorrect email or password.</div>
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <button type="submit" mat-raised-button color="primary" *ngIf="!(isLoading$ | async)">Login</button>
+          <button mat-raised-button color="primary" *ngIf="(isLoading$ | async)" disabled="true">Logging in...</button>
+        </mat-card-actions>
+      </mat-card>
+    </form>
+</div>

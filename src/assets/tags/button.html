@@ -1,0 +1,117 @@
+<html>
+<head></head>
+<body>
+    <div id="tag">
+        <img src="/assets/img/button-icons/banana.svg" width="60" height="40" id="default-img" />
+        <img src="/assets/img/button-icons/banana-peeling.svg" width="60" height="40" class="hidden" id="loading-img" />
+        <img src="/assets/img/button-icons/monkey.svg" width="60" height="40" class="hidden" id="success-img" />
+    </div>
+
+    <style>
+        body {
+            margin: 0px;
+        }
+        #tag {
+            cursor: pointer;
+            height: 40px;
+            width: 60px;
+            background-color: #fff;
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #tag:hover {
+            background-color: #ddd;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+
+    <script>
+        let tagId = getUrlParameter('tagId');
+        let page = getUrlParameter('page');
+        document.getElementById('tag').onclick = () => {
+            if (!tagId) {
+                jsError('Tag id not found');
+            }
+            var sessionId = window.localStorage.getItem('session');
+            if (!sessionId) {
+                login();
+                return;
+            }
+            document.getElementById('default-img').classList.add('hidden');
+            document.getElementById('loading-img').classList.remove('hidden');
+            fetch('http://localhost:5000/api/click', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'bearer ' + sessionId
+                },
+                body: JSON.stringify({ tagId, page })
+            })
+            .then(response => {
+              if(response.status === 401) {
+                login();
+                throw 'Unauthorized';
+              }
+              return response;
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('loading-img').classList.add('hidden');
+                    document.getElementById('success-img').classList.remove('hidden');
+                    setTimeout(() => {
+                        document.getElementById('success-img').classList.add('hidden');
+                        document.getElementById('default-img').classList.remove('hidden');
+                    }, 2000)
+                } else {
+                    if (!data.errors || data.errors.length === 0) {
+                        jsError('Unexpcted error response');
+                    }
+                    data.errors = data.errors.map(err => err.toLowerCase());
+                    if (data.errors.filter(err => err.indexOf('session') >= 0).length > 0) {
+                      login();
+                    } else if (data.errors.filter(err => err.indexOf('funds') >= 0).length > 0) {
+                      addFunds();
+                    }
+                }
+                });
+        };
+
+        function jsError(err) {
+            console.log(err);
+        }
+
+        function login() {
+          window.localStorage.setItem('session', null);
+          var msg = {
+              type: 'showLogin',
+              tagId
+          };
+          window.parent.postMessage(JSON.stringify(msg), '*');
+          document.getElementById('loading-img').classList.add('hidden');
+          document.getElementById('default-img').classList.remove('hidden');
+        }
+
+        function addFunds() {
+          var msg = {
+              type: 'addFunds',
+              tagId
+          };
+          window.parent.postMessage(JSON.stringify(msg), '*');
+          document.getElementById('loading-img').classList.add('hidden');
+          document.getElementById('default-img').classList.remove('hidden');
+        }
+
+        function getUrlParameter(name) {
+          name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+          var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+          var results = regex.exec(location.search);
+          return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+    </script>
+</body>
+</html>

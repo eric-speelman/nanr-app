@@ -1,0 +1,17 @@
+<nanr-app-frame selected="withdraw">
+  <div *ngIf="account$ | async as account" fxLayout="row" fxLayoutAlign="center center" class="full-height">
+    <div fxLayout="column" fxLayoutGap="8px" *ngIf="!(success$ | async) else success">
+      <div>All withdraws have a 1 Nanr transaction fee</div>
+      <mat-slider [disabled]="account.balance < 2" [max]="account.balance" [min]="2" thumbLabel (change)="change($event)"></mat-slider>
+      <div>{{amountString$ | async}}</div>
+      <button mat-raised-button color="primary" (click)="withdraw()" [disabled]="loading$ | async">Withdraw</button>
+      <div *ngIf="error$ | async" class="error">An error has occured while processing your transaction. Please contact support</div>
+    </div>
+    <ng-template #success>
+      <div>
+        <h3>Your withdraw is being processed</h3>
+        <div>Please allow 5 business days for th funds to appear in your account</div>
+      </div>
+    </ng-template>
+  </div>
+</nanr-app-frame>

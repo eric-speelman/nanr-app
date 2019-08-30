@@ -1,0 +1,12 @@
+@import 'src/styles.scss';
+
+.button-container {
+  width: 120px;
+  cursor: pointer;
+  border: 2px solid black;
+  padding: 8px;
+}
+
+.selected {
+  background-color: mat-color($nanr-accent)
+}

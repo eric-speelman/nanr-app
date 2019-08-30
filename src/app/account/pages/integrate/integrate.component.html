@@ -1,0 +1,9 @@
+<nanr-app-frame selected="creators">
+  <div *ngIf="buttonTag$ | async as buttonTag">
+    <h3>Adding a Nanr button to your site is easy!</h3>
+      <div>Just add this script tag anywhere on your site.</div>
+      <div class="code">{{scriptTag}}</div>
+      <div>Then add this tag wherever you want a Nanr button to appear</div>
+      <div class="code">{{buttonTag}}</div>
+  </div>
+</nanr-app-frame>

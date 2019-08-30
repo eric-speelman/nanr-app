@@ -1,0 +1,9 @@
+<div class="signup-container">
+  <div fxLayout="row" fxLayoutAlign="center center" class="full-height">
+    <div fxFlex="0 1 600px" fxLayout="column" fxLayoutGap="8px">
+        <div>Already have an account? <a [routerLink]="['/account/login']" [state]="{redirect: redirect}">Login</a></div>
+       {{redirect}}
+        <nanr-signup-form (signedup)="signedup()"></nanr-signup-form>
+    </div>
+  </div>
+</div>

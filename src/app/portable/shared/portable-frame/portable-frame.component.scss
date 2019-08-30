@@ -1,0 +1,13 @@
+@import 'src/styles.scss';
+
+.frame {
+  background-color: mat-color($nanr-primary);
+  height: 100%;
+  width: 100%;
+  padding: 8px;
+}
+
+.frame-content {
+  height: 100%;
+  width: 100%
+}

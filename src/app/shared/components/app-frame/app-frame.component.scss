@@ -1,0 +1,36 @@
+@import 'src/styles.scss';
+
+.app-container {
+  height: 100%;
+}
+
+.content {
+  height: calc(100% - 64px);
+}
+
+.fill {
+  flex: 1 1 auto;
+}
+
+.main-content {
+  padding: 8px;
+}
+
+.menu-container {
+  background-color: mat-color($nanr-primary);
+  width: 200px;
+}
+
+.menu-button {
+  font-size: 26px;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.selected {
+  background-color: mat-color($nanr-accent);
+}
+
+.menu-button:hover {
+  background-color: mat-color($nanr-primary, 200);
+}

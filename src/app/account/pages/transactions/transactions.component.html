@@ -1,0 +1,67 @@
+<nanr-app-frame selected="transactions">
+  <mat-tab-group>
+    <mat-tab label="Nanrs Recieved">
+      <div *ngIf="transactions$ | async as transactions">
+        <table *ngIf="transactions.clicksRecieved.length > 0 else na">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Page</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let click of transactions.clicksRecieved">
+              <td>{{formatTimeStamp(click.timestamp)}}</td>
+              <td>{{click.page}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </mat-tab>
+    <mat-tab label="Nanrs Sent">
+        <div *ngIf="transactions$ | async as transactions">
+          <table *ngIf="transactions.clicksSent.length > 0 else na">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Page</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let click of transactions.clicksSent">
+                <td>{{formatTimeStamp(click.timestamp)}}</td>
+                <td>{{click.page}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </mat-tab>
+    <mat-tab label="Withdraws">
+      <div *ngIf="transactions$ | async as transactions">
+        <table *ngIf="transactions.withdraws.length > 0 else na">
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Created On</th>
+                <th>Status</th>
+                <th>USD Amount</th>
+                <th>Nanr Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let wd of transactions.withdraws">
+                <td>{{wd.id}}</td>
+                <td>{{formatTimeStamp(wd.createdOn)}}</td>
+                <td>{{formatStatus(wd.status)}}</td>
+                <td>${{wd.usdAmount.toFixed(2)}}</td>
+                <td>{{wd.nanrAmount}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+    </mat-tab>
+  </mat-tab-group>
+  <ng-template #na>
+    <div>There are no transactions at this time</div>
+  </ng-template>
+</nanr-app-frame>

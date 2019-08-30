@@ -1,0 +1,12 @@
+<div fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="12px" class="frame">
+    <div fxLayout="row" fxLayoutAlign="end center" class="full-width">
+        <button mat-fab color="accent" class="close-button" (click)="close()">
+          <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <div fxLayout="row" class="frame-content" fxLayoutAlign="center start">
+      <div fxFlex="0 1 600px">
+        <ng-content></ng-content>
+      </div>
+    </div>
+</div>

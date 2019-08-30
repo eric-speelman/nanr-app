@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Nanr</title>
+  <base href="/">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script type="text/javascript" src="https://js.squareupsandbox.com/v2/paymentform"></script>
+  <style>
+      /* Define how SqPaymentForm iframes should look */
+      .sq-input {
+        height: 56px;
+        box-sizing: border-box;
+        border: 1px solid #E0E2E3;
+        background-color: white;
+        border-radius: 6px;
+        display: inline-block;
+        -webkit-transition: border-color .2s ease-in-out;
+           -moz-transition: border-color .2s ease-in-out;
+            -ms-transition: border-color .2s ease-in-out;
+                transition: border-color .2s ease-in-out;
+      }
+
+      /* Define how SqPaymentForm iframes should look when they have focus */
+      .sq-input--focus {
+        border: 1px solid #6E4EEC;
+      }
+
+      /* Define how SqPaymentForm iframes should look when they contain invalid values */
+      .sq-input--error {
+        border: 1px solid #E02F2F;
+      }
+
+      #sq-card-number {
+        margin-bottom: 16px;
+      }
+
+      /* Customize the "Pay with Credit Card" button */
+      .button-credit-card {
+        border-radius: 50px;
+        box-shadow:
+          0px 2px 8px rgba(0, 0, 0, 0.08),
+          0px 1px 3px rgba(0, 0, 0, 0.04);
+        height: auto;
+        font-size: 16px;
+        letter-spacing: 0.5px;
+        line-height: 24px;
+        margin-top: 16px;
+        padding: 16px;
+        position: relative;
+        text-transform: uppercase;
+        width: 100%;
+        z-index: 1;
+        background: linear-gradient(180deg,#8E72FF -57.14%,#6E4EEC 125%);
+        border: none;
+        color: #fff;
+      }
+
+      .button-credit-card:hover {
+        background: linear-gradient(180deg,#a791ff -57.14%,#856aef 125%);
+        color: #fff;
+      }
+
+  </style>
+</head>
+<body>
+  <nanr-root></nanr-root>
+</body>
+</html>
