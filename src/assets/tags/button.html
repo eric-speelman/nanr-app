@@ -33,7 +33,9 @@
         let tagId = getUrlParameter('tagId');
         let page = getUrlParameter('page');
         var sessionId = window.localStorage.getItem('session');
-        console.log(sessionId);
+        if (sessionId === 'null') {
+          sessionId = null;
+        }
         fetch('http://localhost:5000/api/tags/view', {
           method: 'POST',
           headers: {
