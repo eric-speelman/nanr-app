@@ -17,11 +17,16 @@ export class AddNanrsComponent implements AfterViewInit {
   selected$ = new BehaviorSubject('bushel');
   loading$ = new BehaviorSubject(false);
   error$ = new BehaviorSubject(false);
+  built$ = new BehaviorSubject(false);
   billingForm = this.fb.group({
   });
   constructor(private purchaseService: PurchaseService, private fb: FormBuilder) {
   }
   ngAfterViewInit() {
+    if (typeof SqPaymentForm === 'undefined') {
+      setTimeout(this.ngAfterViewInit, 100);
+      return;
+    }
     this.paymentForm = new SqPaymentForm({
       applicationId: 'sandbox-sq0idb-1JUoOnGGfhxgP3ukD_d5uA',
       inputClass: 'sq-input',
@@ -73,6 +78,7 @@ export class AddNanrsComponent implements AfterViewInit {
       }
     });
     this.paymentForm.build();
+    this.built$.next(true);
   }
 
   onGetCardNonce(event) {

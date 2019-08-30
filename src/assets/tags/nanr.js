@@ -19,11 +19,10 @@ fundsFrame.height = 800;
 fundsFrame.style.left = '0px';
 fundsFrame.style.top = '0px'
 fundsFrame.style.display = 'none';
-
+var addedFundsFrame = false;
 var buttons = {};
 document.addEventListener('DOMContentLoaded', function () {
     document.body.append(loginFrame);
-    document.body.append(fundsFrame);
     document.querySelectorAll('[nanr-id]').forEach(el => {
         let tagId = el.getAttribute('nanr-id');
         var iFrame = document.createElement('iframe');
@@ -49,6 +48,9 @@ function handleMessage(message) {
         } else if (msgObj.type === 'navigate') {
             window.location.href = msgObj.url;
         } else if(msgObj.type == 'addFunds') {
+          if (!addedFundsFrame) {
+            document.body.append(fundsFrame);
+          }
           fundsFrame.style.display = 'block';
         }
     }

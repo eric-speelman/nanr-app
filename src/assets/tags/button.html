@@ -32,11 +32,18 @@
     <script>
         let tagId = getUrlParameter('tagId');
         let page = getUrlParameter('page');
+        var sessionId = window.localStorage.getItem('session');
+        fetch('http://localhost:5000/api/tags/view', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ tagId, page, sessionId })
+        })
         document.getElementById('tag').onclick = () => {
             if (!tagId) {
                 jsError('Tag id not found');
             }
-            var sessionId = window.localStorage.getItem('session');
             if (!sessionId) {
                 login();
                 return;
