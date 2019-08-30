@@ -7,15 +7,16 @@ import { WithdrawComponent } from './pages/withdraw/withdraw.component';
 import { TransactionsComponent } from './pages/transactions/transactions.component';
 import { IntegrateComponent } from './pages/integrate/integrate.component';
 import { HomeComponent } from './pages/home/home.component';
+import { AuthGuard } from 'src/app/core'
 
 const routes: Routes = [
   { path: 'signup', component: SignupComponent },
-  { path: 'purchase', component: PurchaseComponent},
+  { path: 'purchase', component: PurchaseComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
-  { path: 'withdraw', component: WithdrawComponent },
-  { path: 'transactions', component: TransactionsComponent},
-  { path: 'integrate', component: IntegrateComponent},
-  { path: '', component: HomeComponent}
+  { path: 'withdraw', component: WithdrawComponent, canActivate: [AuthGuard]  },
+  { path: 'transactions', component: TransactionsComponent, canActivate: [AuthGuard] },
+  { path: 'integrate', component: IntegrateComponent, canActivate: [AuthGuard] },
+  { path: '', component: HomeComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({
