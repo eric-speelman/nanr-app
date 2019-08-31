@@ -1,4 +1,5 @@
-﻿var loginHref = 'http://localhost:4200/portable/signup';
+﻿//version 1.1
+var loginHref = 'http://localhost:4200/portable/signup';
 var fundsHref = 'http://localhost:4200/portable/add';
 var loginFrame = document.createElement('iframe');
 loginFrame.src = loginHref;
