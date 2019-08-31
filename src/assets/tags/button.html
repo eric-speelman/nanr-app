@@ -32,18 +32,15 @@
     <script>
         let tagId = getUrlParameter('tagId');
         let page = getUrlParameter('page');
-        var sessionId = window.localStorage.getItem('session');
-        if (sessionId === 'null') {
-          sessionId = null;
-        }
         fetch('http://localhost:5000/api/tags/view', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ tagId, page, sessionId })
+          body: JSON.stringify({ tagId, page, sessionId: getSessionId() })
         })
         document.getElementById('tag').onclick = () => {
+            let sessionId = getSessionId();
             if (!tagId) {
                 jsError('Tag id not found');
             }
@@ -121,6 +118,14 @@
           var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
           var results = regex.exec(location.search);
           return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+
+        function getSessionId() {
+          let sessionId = window.localStorage.getItem('session');
+          if (sessionId === 'null') {
+            sessionId = null;
+          }
+          return sessionId;
         }
     </script>
 </body>
