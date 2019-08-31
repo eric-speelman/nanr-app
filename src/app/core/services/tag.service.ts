@@ -12,8 +12,8 @@ export class TagService {
   constructor(private http: HttpClient) { }
 
   get() {
-    const url = `${environment.apiUrl}tags`;
-    return this.http.get<TagResponseModel[]>(url);
+    const url = `${environment.apiUrl}tag`;
+    return this.http.get<TagResponseModel>(url);
   }
 
   click() {

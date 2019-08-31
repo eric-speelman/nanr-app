@@ -1,9 +1,12 @@
 <nanr-app-frame selected="creators">
-  <div *ngIf="buttonTag$ | async as buttonTag">
-    <h3>Adding a Nanr button to your site is easy!</h3>
-      <div>Just add this script tag anywhere on your site.</div>
-      <div class="code">{{scriptTag}}</div>
-      <div>Then add this tag wherever you want a Nanr button to appear</div>
-      <div class="code">{{buttonTag}}</div>
+  <div *ngIf="tag$ | async as tag">
+    <h2>Two great ways to start collecting Nanrs!</h2>
+    <h4>Add a Nanr button to your website</h4>
+    <div class="code">{{scriptTag}}</div>
+    <div>Then add this tag wherever you want a Nanr button to appear</div>
+    <div class="code">{{generateButtonTag(tag.id)}}</div>
+    <h4>Link to your Nanr stand</h4>
+    <div>Just direct people to this link and they will be taken to your Nanr stand where they can send you Nanrs</div>
+    <div class="code">{{generateStandLink(tag.username)}}</div>
   </div>
 </nanr-app-frame>
