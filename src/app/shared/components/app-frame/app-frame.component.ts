@@ -1,5 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { AccountService, UserModel} from 'src/app/core';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'nanr-app-frame',
@@ -9,7 +11,10 @@ import { Router } from '@angular/router';
 })
 export class AppFrameComponent implements OnInit {
   @Input() selected: string;
-  constructor(private router: Router) { }
+  user$: Observable<UserModel>;
+  constructor(private router: Router, private accountService: AccountService) {
+    this.user$ = this.accountService.get();
+  }
 
   ngOnInit() {
   }

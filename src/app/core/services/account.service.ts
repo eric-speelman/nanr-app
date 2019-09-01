@@ -13,9 +13,7 @@ export class AccountService {
 
   get() {
     const url = `${environment.apiUrl}me`;
-    return this.http.get<UserModel>(url).pipe(
-      first()
-    );
+    return this.http.get<UserModel>(url);
   }
 
   withdraw(amount: number) {
