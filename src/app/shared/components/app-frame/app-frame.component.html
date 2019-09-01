@@ -3,7 +3,7 @@
     <span>Nanr</span>
     <span class="fill"></span>
     <button mat-raised-button color="accent" (click)="get()">Get Nanrs!</button>
-    <span matBadge="4" matBadgeColor="accent" class="nanr-icon"><img src="/assets/img/button-icons/banana.svg" width="60" height="40" matBadge="22" /></span>
+    <span matBadge="{{(user$ | async).balance}}" matBadgeColor="accent" class="nanr-icon"><img src="/assets/img/button-icons/banana.svg" width="60" height="40" matBadge="22" /></span>
   </mat-toolbar>
   <div class="content">
     <mat-drawer-container class="full-height">
