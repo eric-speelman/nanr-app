@@ -28,8 +28,9 @@ document.addEventListener('DOMContentLoaded', function () {
         let tagId = el.getAttribute('nanr-id');
         var iFrame = document.createElement('iframe');
         iFrame.frameBorder = 'none';
-        iFrame.width = 60;
-        iFrame.height = 40;
+        iFrame.width = 54;
+        iFrame.height = 54;
+        iFrame.scrolling = 'no';
         iFrame.src = `http://localhost:4200/assets/tags/button.html?tagId=${tagId}&page=${encodeURI(window.location.href)}`;
         el.innerHTML = iFrame.outerHTML;
         let loginContainer = document.createElement('div');

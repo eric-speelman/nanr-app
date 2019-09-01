@@ -2,9 +2,10 @@
 <head></head>
 <body>
     <div id="tag">
-        <img src="/assets/img/button-icons/banana.svg" width="60" height="40" id="default-img" />
-        <img src="/assets/img/button-icons/banana-peeling.svg" width="60" height="40" class="hidden" id="loading-img" />
-        <img src="/assets/img/button-icons/monkey.svg" width="60" height="40" class="hidden" id="success-img" />
+        <img src="/assets/img/button-icons/banana.svg" width="40" height="40" id="default-img" />
+        <img src="/assets/img/button-icons/banana-peeling.svg" width="40" height="40" class="hidden" id="loading-img" />
+        <img src="/assets/img/button-icons/monkey.svg" width="40" height="40" class="hidden" id="success-img" />
+        <img src="/assets/img/button-icons/heart.svg" width="40" height="40" class="hidden" id="complete-img" />
     </div>
 
     <style>
@@ -14,18 +15,32 @@
         #tag {
             cursor: pointer;
             height: 40px;
-            width: 60px;
-            background-color: #fff;
+            width: 40px;
+            background-color: #3f51b5;
             margin: 0px;
-            padding: 0px;
+            padding: 5px;
+            border: 2px solid #ff4081
         }
 
         #tag:hover {
-            background-color: #ddd;
+            background-color:  #6a76bb;
         }
 
         .hidden {
             display: none;
+        }
+
+        #default-img:hover {
+          transform: rotate(360deg);
+          transition: 0.70s;
+        }
+
+        .rotate-left {
+          transform: rotate(20deg);
+        }
+
+        .rotate-right {
+          transform: rotate(-20deg);
         }
     </style>
 
@@ -68,12 +83,27 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
+                    let rotateState = 0;
                     document.getElementById('loading-img').classList.add('hidden');
                     document.getElementById('success-img').classList.remove('hidden');
+                    document.getElementById('success-img').classList.remove('rotate-right');
+                    document.getElementById('success-img').classList.add('rotate-left');
                     setTimeout(() => {
-                        document.getElementById('success-img').classList.add('hidden');
-                        document.getElementById('default-img').classList.remove('hidden');
-                    }, 2000)
+                        document.getElementById('success-img').classList.remove('rotate-left');
+                        document.getElementById('success-img').classList.add('rotate-right');
+                        setTimeout(() => {
+                          document.getElementById('success-img').classList.remove('rotate-right');
+                          document.getElementById('success-img').classList.add('rotate-left');
+                          setTimeout(() => {
+                            document.getElementById('success-img').classList.add('hidden');
+                            document.getElementById('complete-img').classList.remove('hidden');
+                            setTimeout(() => {
+                              document.getElementById('complete-img').classList.add('hidden');
+                              document.getElementById('default-img').classList.remove('hidden');
+                            }, 700);
+                          }, 300);
+                        }, 300);
+                    }, 300)
                 } else {
                     if (!data.errors || data.errors.length === 0) {
                         jsError('Unexpcted error response');
