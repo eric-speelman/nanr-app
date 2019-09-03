@@ -42,7 +42,6 @@
     </style>
 
     <script>
-      window.clie
         let tagId = getUrlParameter('tagId');
         let page = getUrlParameter('page');
         let width = Math.min(window.innerWidth, window.innerHeight);
@@ -80,7 +79,7 @@
                 login();
                 return;
             }
-            defaultImage.classList.add('hidden');
+            hideAll();
             loadingImage.classList.remove('hidden');
             fetch('http://localhost:5000/api/click', {
                 method: 'POST',
@@ -100,8 +99,7 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    let rotateState = 0;
-                    loadingImage.classList.add('hidden');
+                    hideAll();
                     successImage.classList.remove('hidden');
                     successImage.classList.remove('rotate-right');
                     successImage.classList.add('rotate-left');
@@ -115,9 +113,7 @@
                             successImage.classList.add('hidden');
                             completeImage.classList.remove('hidden');
                             setTimeout(() => {
-                              completeImage.classList.add('hidden');
-                              successImage.classList.add('hidden');
-                              loadingImage.classList.add('hidden');
+                              hideAll();
                               defaultImage.classList.remove('hidden');
                             }, 700);
                           }, 300);
@@ -140,7 +136,11 @@
         function jsError(err) {
             console.log(err);
         }
-
+        function hideAll() {
+          images.forEach(x => {
+            x.classList.add('hidden');
+          });
+        }
         function login() {
           window.localStorage.setItem('session', null);
           var msg = {
