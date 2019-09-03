@@ -2,11 +2,7 @@
   <div fxLayout="row" fxLayoutAlign="center center" class="full-height">
     <div *ngIf="username$ | async as username">
       <h1>{{username}}'s Nanr Stand</h1>
-      <div class="nanr-container" (click)="send()" *ngIf="state$ | async as state">
-        <img src='/assets/img/button-icons/banana.svg' width="200" height="200" *ngIf="state === 'default'"/>
-        <img src='/assets/img/button-icons/banana-peeling.svg' width="200" height="200" *ngIf="state === 'loading'"/>
-        <img src='/assets/img/button-icons/monkey.svg' width="200" height="200" *ngIf="state === 'success'"/>
-      </div>
+      <iframe *ngIf="buttonUrl$ | async as buttonUrl" scrolling="no" frameborder=0 [src]="buttonUrl" width="300" height="300"></iframe>
       <div>Click the banana to give {{username}} a Nanr</div>
     </div>
   </div>

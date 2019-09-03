@@ -5,24 +5,33 @@ var loginFrame = document.createElement('iframe');
 loginFrame.src = loginHref;
 loginFrame.style.position = 'absolute';
 loginFrame.frameBorder = 0;
-loginFrame.width = 600;
-loginFrame.height = 800;
 loginFrame.style.left = '0px';
 loginFrame.style.top = '0px'
 loginFrame.style.display = 'none';
+
 
 var fundsFrame = document.createElement('iframe');
 fundsFrame.src = fundsHref;
 fundsFrame.style.position = 'absolute';
 fundsFrame.frameBorder = 0;
-fundsFrame.width = 600;
-fundsFrame.height = 800;
 fundsFrame.style.left = '0px';
 fundsFrame.style.top = '0px'
 fundsFrame.style.display = 'none';
 var addedFundsFrame = false;
-var buttons = {};
 document.addEventListener('DOMContentLoaded', function () {
+    let isStand = getUrlParameter('stand');
+    if (isStand) {
+      width = '100%';
+      heigh = '100%';
+    } else {
+      width = '600px';
+      height = '800px';
+    }
+    let frames = [loginFrame, fundsFrame];
+    frames.forEach(x => {
+      x.style.width = width;
+      x.style.height = height;
+    });
     document.body.append(loginFrame);
     document.querySelectorAll('[nanr-id]').forEach(el => {
         let tagId = el.getAttribute('nanr-id');
@@ -35,7 +44,6 @@ document.addEventListener('DOMContentLoaded', function () {
         el.innerHTML = iFrame.outerHTML;
         let loginContainer = document.createElement('div');
         loginContainer.style.display = 'none';
-        buttons[tagId] = el;
     });
 }, false);
 
@@ -56,6 +64,13 @@ function handleMessage(message) {
           fundsFrame.style.display = 'block';
         }
     }
+}
+
+function getUrlParameter(name) {
+  name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+  var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+  var results = regex.exec(location.search);
+  return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
 }
 
 window.addEventListener('message', handleMessage, false);

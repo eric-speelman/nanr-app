@@ -15,7 +15,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatBadgeModule } from '@angular/material/badge';
 
 @NgModule({
-  declarations: [AppFrameComponent],
+  declarations: [AppFrameComponent ],
   imports: [
     CommonModule,
     MatCardModule,

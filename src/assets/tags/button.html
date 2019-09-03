@@ -2,10 +2,10 @@
 <head></head>
 <body>
     <div id="tag">
-        <img src="/assets/img/button-icons/banana.svg" width="40" height="40" id="default-img" />
-        <img src="/assets/img/button-icons/banana-peeling.svg" width="40" height="40" class="hidden" id="loading-img" />
-        <img src="/assets/img/button-icons/monkey.svg" width="40" height="40" class="hidden" id="success-img" />
-        <img src="/assets/img/button-icons/heart.svg" width="40" height="40" class="hidden" id="complete-img" />
+        <img src="/assets/img/button-icons/banana.svg" id="default-img" />
+        <img src="/assets/img/button-icons/banana-peeling.svg" class="hidden" id="loading-img" />
+        <img src="/assets/img/button-icons/monkey.svg" class="hidden" id="success-img" />
+        <img src="/assets/img/button-icons/heart.svg" class="hidden" id="complete-img" />
     </div>
 
     <style>
@@ -14,11 +14,8 @@
         }
         #tag {
             cursor: pointer;
-            height: 40px;
-            width: 40px;
             background-color: #3f51b5;
             margin: 0px;
-            padding: 5px;
             border: 2px solid #ff4081
         }
 
@@ -48,21 +45,22 @@
       window.clie
         let tagId = getUrlParameter('tagId');
         let page = getUrlParameter('page');
-        let width = window.innerWidth - 14;
-        let height = window.innerHeight - 14;
+        let width = Math.min(window.innerWidth, window.innerHeight);
+        const padding = parseInt(width * .1);
+        width -= padding * 2 + 4;
+        document.getElementById('tag').style.padding = padding + 'px';
         let defaultImage = document.getElementById('default-img');
         let loadingImage = document.getElementById('loading-img');
         let successImage = document.getElementById('success-img');
         let completeImage = document.getElementById('complete-img');
         let images = [defaultImage, loadingImage, successImage, completeImage];
-        images.forEach(x => {
-          x.setAttribute('width', width || 400);
-          x.setAttribute('height', height || 400);
-        });
-        if (!width || !height) {
+        if (!width) {
           width = 40;
-          height = 40;
         }
+        images.forEach(x => {
+          x.setAttribute('width', width);
+          x.setAttribute('height', width);
+        });
         fetch('http://localhost:5000/api/tags/view', {
           method: 'POST',
           headers: {
@@ -115,6 +113,8 @@
                             completeImage.classList.remove('hidden');
                             setTimeout(() => {
                               completeImage.classList.add('hidden');
+                              successImage.classList.add('hidden');
+                              loadingImage.classList.add('hidden');
                               defaultImage.classList.remove('hidden');
                             }, 700);
                           }, 300);

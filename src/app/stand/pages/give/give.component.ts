@@ -1,8 +1,10 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { AuthService, ClickService } from 'src/app/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Observable, BehaviorSubject, forkJoin } from 'rxjs';
+import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'nanr-give',
@@ -13,7 +15,8 @@ import { map, switchMap } from 'rxjs/operators';
 export class GiveComponent implements OnInit {
   username$: Observable<string>;
   state$ = new BehaviorSubject('default');
-  constructor(private auth: AuthService, private router: Router,
+  buttonUrl$ = new BehaviorSubject<SafeResourceUrl>(undefined);
+  constructor(private sanitizer: DomSanitizer, private router: Router,
               private route: ActivatedRoute, private clickService: ClickService) { }
 
   ngOnInit() {
@@ -23,9 +26,16 @@ export class GiveComponent implements OnInit {
         if (username) {
           username = username.substr(0, 1).toUpperCase() + username.substr(1).toLowerCase();
         }
+        console.log(`${environment.buttonUrl}?tagId=${username}`)
+        this.buttonUrl$.next(
+          this.sanitizer.bypassSecurityTrustResourceUrl(`${environment.buttonUrl}?tagId=${username}&page=${window.location.href}`));
         return username;
       })
     );
+    const me = this;
+    window.addEventListener('message', message => {
+      me.handleMessage(message, me);
+    }, false);
   }
 
   send() {
@@ -46,6 +56,26 @@ export class GiveComponent implements OnInit {
           setTimeout(() => this.state$.next('default'), 2000);
         }
       });
+    }
+  }
+
+  handleMessage(message: any, me: any) {
+    if (message && message.data) {
+      let msgObj: any;
+      try {
+        msgObj = JSON.parse(message.data);
+      } catch (err)
+      {
+        return;
+      }
+      if (msgObj) {
+          if (msgObj && msgObj.type === 'showLogin') {
+            me.router.navigateByUrl('account/signup', {state: {redirect: this.router.url}});
+          } else if (msgObj.type === 'addFunds') {
+            console.log(this.router)
+            me.router.navigateByUrl('s/app/purchase', {state: {redirect: this.router.url}});
+          }
+      }
     }
   }
 }
