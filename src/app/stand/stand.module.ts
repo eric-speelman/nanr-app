@@ -5,7 +5,6 @@ import { GiveComponent } from './pages/give/give.component';
 import { PurchaseComponent } from './pages/purchase/purchase.component';
 import { PortableModule } from 'src/app/portable/portable.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { SafePipeModule } from 'safe-pipe';
 
 
 @NgModule({
@@ -14,8 +13,7 @@ import { SafePipeModule } from 'safe-pipe';
     CommonModule,
     StandRoutingModule,
     PortableModule,
-    FlexLayoutModule,
-    SafePipeModule
+    FlexLayoutModule
   ]
 })
 export class StandModule { }
