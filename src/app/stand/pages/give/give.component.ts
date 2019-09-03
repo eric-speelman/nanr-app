@@ -73,7 +73,7 @@ export class GiveComponent implements OnInit {
             me.router.navigateByUrl('account/signup', {state: {redirect: this.router.url}});
           } else if (msgObj.type === 'addFunds') {
             console.log(this.router)
-            me.router.navigateByUrl('s/app/purchase', {state: {redirect: this.router.url}});
+            me.router.navigateByUrl('s/ap/purchase', {state: {redirect: this.router.url}});
           }
       }
     }
