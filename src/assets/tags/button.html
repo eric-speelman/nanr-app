@@ -110,12 +110,16 @@
                           successImage.classList.remove('rotate-right');
                           successImage.classList.add('rotate-left');
                           setTimeout(() => {
-                            successImage.classList.add('hidden');
-                            completeImage.classList.remove('hidden');
+                            successImage.classList.remove('rotate-left');
+                            successImage.classList.add('rotate-right');
                             setTimeout(() => {
-                              hideAll();
-                              defaultImage.classList.remove('hidden');
-                            }, 700);
+                              successImage.classList.add('hidden');
+                              completeImage.classList.remove('hidden');
+                              setTimeout(() => {
+                                hideAll();
+                                defaultImage.classList.remove('hidden');
+                              }, 700);
+                            }, 300);
                           }, 300);
                         }, 300);
                     }, 300)
