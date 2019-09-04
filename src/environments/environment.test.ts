@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
   apiUrl: 'https://nanr-test.azurewebsites.net/api/',
-  nanrStandUrl: 'https://nanr-test.azureedge.net/s/',
-  buttonUrl: 'https://nanr-test-app.azureedge.net/assets/tags/button.html'
+  nanrStandUrl: 'https://test.nanr.io/s/',
+  buttonUrl: 'https://app.test.nanr.io/assets/tags/button.html'
 };
