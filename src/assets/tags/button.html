@@ -43,6 +43,8 @@
 
     <script>
         let tagId = getUrlParameter('tagId');
+        let demo = getUrlParameter('demo');
+        demo = demo && demo.toLocaleLowerCase() === 'true';
         let page = getUrlParameter('page');
         let width = Math.min(window.innerWidth, window.innerHeight);
         const padding = parseInt(width * .1);
@@ -63,13 +65,15 @@
           x.setAttribute('width', width);
           x.setAttribute('height', width);
         });
-        fetch('http://localhost:5000/api/tags/view', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ tagId, page, sessionId: getSessionId() })
-        })
+        if (!demo) {
+          fetch('http://localhost:5000/api/tags/view', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ tagId, page, sessionId: getSessionId() })
+          })
+        }
         document.getElementById('tag').onclick = () => {
             let sessionId = getSessionId();
             if (!tagId) {
@@ -81,61 +85,77 @@
             }
             hideAll();
             loadingImage.classList.remove('hidden');
-            fetch('http://localhost:5000/api/click', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'bearer ' + sessionId
-                },
-                body: JSON.stringify({ tagId, page })
-            })
-            .then(response => {
-              if(response.status === 401) {
-                login();
-                throw 'Unauthorized';
-              }
-              return response;
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    hideAll();
-                    successImage.classList.remove('hidden');
-                    successImage.classList.remove('rotate-right');
-                    successImage.classList.add('rotate-left');
-                    setTimeout(() => {
-                        successImage.classList.remove('rotate-left');
-                        successImage.classList.add('rotate-right');
-                        setTimeout(() => {
-                          successImage.classList.remove('rotate-right');
-                          successImage.classList.add('rotate-left');
-                          setTimeout(() => {
-                            successImage.classList.remove('rotate-left');
-                            successImage.classList.add('rotate-right');
-                            setTimeout(() => {
-                              successImage.classList.add('hidden');
-                              completeImage.classList.remove('hidden');
-                              setTimeout(() => {
-                                hideAll();
-                                defaultImage.classList.remove('hidden');
-                              }, 700);
-                            }, 300);
-                          }, 300);
-                        }, 300);
-                    }, 300)
-                } else {
-                    if (!data.errors || data.errors.length === 0) {
-                        jsError('Unexpcted error response');
-                    }
-                    data.errors = data.errors.map(err => err.toLowerCase());
-                    if (data.errors.filter(err => err.indexOf('session') >= 0).length > 0) {
-                      login();
-                    } else if (data.errors.filter(err => err.indexOf('funds') >= 0).length > 0) {
-                      addFunds();
-                    }
+            if (!demo) {
+              fetch('http://localhost:5000/api/click', {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json',
+                      'Authorization': 'bearer ' + sessionId
+                  },
+                  body: JSON.stringify({ tagId, page })
+              })
+              .then(response => {
+                if(response.status === 401) {
+                  login();
+                  throw 'Unauthorized';
                 }
+                return response;
+              })
+              .then(response => response.json())
+              .then(data => {
+                  if (data.success) {
+                    animateButton();
+                  } else {
+                      if (!data.errors || data.errors.length === 0) {
+                          jsError('Unexpcted error response');
+                      }
+                      data.errors = data.errors.map(err => err.toLowerCase());
+                      if (data.errors.filter(err => err.indexOf('session') >= 0).length > 0) {
+                        login();
+                      } else if (data.errors.filter(err => err.indexOf('funds') >= 0).length > 0) {
+                        addFunds();
+                      }
+                  }
                 });
+            } else {
+              setTimeout(animateButton, 500);
+            }
         };
+        let timeouts = [];
+        function animateButton() {
+          timeouts.forEach(x => clearTimeout(x));
+          timeouts = [];
+          hideAll();
+          successImage.classList.remove('hidden');
+          successImage.classList.remove('rotate-right');
+          successImage.classList.add('rotate-left');
+          timeouts.push(setTimeout(() => {
+              hideAll();
+              successImage.classList.remove('hidden');
+              successImage.classList.remove('rotate-left');
+              successImage.classList.add('rotate-right');
+              timeouts.push(setTimeout(() => {
+                hideAll();
+                successImage.classList.remove('hidden');
+                successImage.classList.remove('rotate-right');
+                successImage.classList.add('rotate-left');
+                timeouts.push(setTimeout(() => {
+                  hideAll();
+                  successImage.classList.remove('hidden');
+                  successImage.classList.remove('rotate-left');
+                  successImage.classList.add('rotate-right');
+                  timeouts.push(setTimeout(() => {
+                    hideAll();
+                    completeImage.classList.remove('hidden');
+                    timeouts.push(setTimeout(() => {
+                      hideAll();
+                      defaultImage.classList.remove('hidden');
+                    }, 700));
+                  }, 300));
+                }, 300));
+              }, 300));
+          }, 300));
+        }
 
         function jsError(err) {
             console.log(err);
