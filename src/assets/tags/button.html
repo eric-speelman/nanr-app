@@ -3,9 +3,9 @@
 <body>
     <div id="tag">
         <img src="/assets/img/button-imgs/banana.svg" id="default-img" class="button-img" />
-        <img src="/assets/img/button-imgs/banana-peeling.svg" class="hidden" id="loading-img" class="button-img" />
-        <img src="/assets/img/button-imgs/monkey.svg" class="hidden" id="success-img" class="button-img" />
-        <img src="/assets/img/button-imgs/heart.svg" class="hidden" id="complete-img" class="button-img" />
+        <img src="/assets/img/button-imgs/banana-peeling.svg" class="hidden button-img" id="loading-img" />
+        <img src="/assets/img/button-imgs/monkey.svg" class="hidden button-img" id="success-img" />
+        <img src="/assets/img/button-imgs/heart.svg" class="hidden button-img" id="complete-img" />
     </div>
 
     <style>
@@ -68,7 +68,6 @@
         let successImage = document.getElementById('success-img');
         let completeImage = document.getElementById('complete-img');
         let images = [defaultImage, loadingImage, successImage, completeImage];
-        window.addEventListener('resize', setSize);
         if (!demo) {
           fetch('http://localhost:5000/api/tags/view', {
             method: 'POST',
