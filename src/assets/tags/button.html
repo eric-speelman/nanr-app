@@ -2,51 +2,65 @@
 <head></head>
 <body>
     <div id="tag">
-        <img src="/assets/img/button-imgs/banana.svg" id="default-img" />
-        <img src="/assets/img/button-imgs/banana-peeling.svg" class="hidden" id="loading-img" />
-        <img src="/assets/img/button-imgs/monkey.svg" class="hidden" id="success-img" />
-        <img src="/assets/img/button-imgs/heart.svg" class="hidden" id="complete-img" />
+        <img src="/assets/img/button-imgs/banana.svg" id="default-img" class="button-img" />
+        <img src="/assets/img/button-imgs/banana-peeling.svg" class="hidden" id="loading-img" class="button-img" />
+        <img src="/assets/img/button-imgs/monkey.svg" class="hidden" id="success-img" class="button-img" />
+        <img src="/assets/img/button-imgs/heart.svg" class="hidden" id="complete-img" class="button-img" />
     </div>
 
     <style>
-        body {
-            margin: 0px;
-            width: 100%;
-            height: 100%;
-        }
-        #tag {
-            cursor: pointer;
-            background-color: #3f51b5;
-            margin: 0px;
-            border: 2px solid #ff4081;
-            width: 100%;
-            height: 100%;
-        }
+      html {
+        box-sizing: border-box;
+      }
+      *, *:before, *:after {
+        box-sizing: inherit;
+      }
+      body {
+          margin: 0px;
+          width: 100%;
+          height: 100%;
+      }
+      #tag {
+          cursor: pointer;
+          background-color: #3f51b5;
+          margin: 0px;
+          border: 2px solid #ff4081;
+          width: 100%;
+          height: 100%;
+          padding: 10%;
+      }
 
-        #tag:hover {
-            background-color:  #6a76bb;
-        }
+      .button-img {
+        width: 100%;
+        height: 100%;
+      }
 
-        .hidden {
-            display: none;
-        }
+      #tag:hover {
+          background-color:  #6a76bb;
+      }
 
-        #default-img:hover {
-          transform: rotate(360deg);
-          transition: 0.70s;
-        }
+      .hidden {
+          display: none;
+      }
 
-        .rotate-left {
-          transform: rotate(20deg);
-        }
+      #default-img:hover {
+        transform: rotate(360deg);
+        transition: 0.70s;
+      }
 
-        .rotate-right {
-          transform: rotate(-20deg);
-        }
+      .rotate-left {
+        transform: rotate(20deg);
+      }
+
+      .rotate-right {
+        transform: rotate(-20deg);
+      }
     </style>
 
     <script>
         let tagId = getUrlParameter('tagId');
+        let demo = getUrlParameter('demo');
+        demo = demo && demo.toLocaleLowerCase() === 'true';
         let page = getUrlParameter('page');
         let tag = document.getElementById('tag');
         let defaultImage = document.getElementById('default-img');
@@ -54,15 +68,16 @@
         let successImage = document.getElementById('success-img');
         let completeImage = document.getElementById('complete-img');
         let images = [defaultImage, loadingImage, successImage, completeImage];
-        setSize();
         window.addEventListener('resize', setSize);
-        fetch('http://localhost:5000/api/tags/view', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ tagId, page, sessionId: getSessionId() })
-        })
+        if (!demo) {
+          fetch('http://localhost:5000/api/tags/view', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ tagId, page, sessionId: getSessionId() })
+          })
+        }
         document.getElementById('tag').onclick = () => {
             let sessionId = getSessionId();
             if (!tagId) {
@@ -74,76 +89,78 @@
             }
             hideAll();
             loadingImage.classList.remove('hidden');
-            fetch('http://localhost:5000/api/click', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'bearer ' + sessionId
-                },
-                body: JSON.stringify({ tagId, page })
-            })
-            .then(response => {
-              if(response.status === 401) {
-                login();
-                throw 'Unauthorized';
-              }
-              return response;
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    hideAll();
-                    successImage.classList.remove('hidden');
-                    successImage.classList.remove('rotate-right');
-                    successImage.classList.add('rotate-left');
-                    setTimeout(() => {
-                        successImage.classList.remove('rotate-left');
-                        successImage.classList.add('rotate-right');
-                        setTimeout(() => {
-                          successImage.classList.remove('rotate-right');
-                          successImage.classList.add('rotate-left');
-                          setTimeout(() => {
-                            successImage.classList.remove('rotate-left');
-                            successImage.classList.add('rotate-right');
-                            setTimeout(() => {
-                              successImage.classList.add('hidden');
-                              completeImage.classList.remove('hidden');
-                              setTimeout(() => {
-                                hideAll();
-                                defaultImage.classList.remove('hidden');
-                              }, 700);
-                            }, 300);
-                          }, 300);
-                        }, 300);
-                    }, 300)
-                } else {
-                    if (!data.errors || data.errors.length === 0) {
-                        jsError('Unexpcted error response');
-                    }
-                    data.errors = data.errors.map(err => err.toLowerCase());
-                    if (data.errors.filter(err => err.indexOf('session') >= 0).length > 0) {
-                      login();
-                    } else if (data.errors.filter(err => err.indexOf('funds') >= 0).length > 0) {
-                      addFunds();
-                    }
+            if (!demo) {
+              fetch('http://localhost:5000/api/click', {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json',
+                      'Authorization': 'bearer ' + sessionId
+                  },
+                  body: JSON.stringify({ tagId, page })
+              })
+              .then(response => {
+                if(response.status === 401) {
+                  login();
+                  throw 'Unauthorized';
                 }
+                return response;
+              })
+              .then(response => response.json())
+              .then(data => {
+                  if (data.success) {
+                    animateButton();
+                  } else {
+                      if (!data.errors || data.errors.length === 0) {
+                          jsError('Unexpcted error response');
+                      }
+                      data.errors = data.errors.map(err => err.toLowerCase());
+                      if (data.errors.filter(err => err.indexOf('session') >= 0).length > 0) {
+                        login();
+                      } else if (data.errors.filter(err => err.indexOf('funds') >= 0).length > 0) {
+                        addFunds();
+                      }
+                  }
                 });
+            } else {
+              setTimeout(animateButton, 500);
+            }
         };
-        function setSize() {
-          let width = Math.min(window.innerWidth, window.innerHeight);
-          const padding = parseInt(width * .1);
-          width -= padding * 2 + 4;
-          tag.style.padding = padding + 'px';
-          tag.style.width = width + 'px';
-          tag.style.height = width + 'px';
-          if (!width) {
-          width = 40;
-          }
-          images.forEach(x => {
-            x.setAttribute('width', width);
-            x.setAttribute('height', width);
-          });
+        let timeouts = [];
+        function animateButton() {
+          timeouts.forEach(x => clearTimeout(x));
+          timeouts = [];
+          hideAll();
+          successImage.classList.remove('hidden');
+          successImage.classList.remove('rotate-right');
+          successImage.classList.add('rotate-left');
+          timeouts.push(setTimeout(() => {
+              hideAll();
+              successImage.classList.remove('hidden');
+              successImage.classList.remove('rotate-left');
+              successImage.classList.add('rotate-right');
+              timeouts.push(setTimeout(() => {
+                hideAll();
+                successImage.classList.remove('hidden');
+                successImage.classList.remove('rotate-right');
+                successImage.classList.add('rotate-left');
+                timeouts.push(setTimeout(() => {
+                  hideAll();
+                  successImage.classList.remove('hidden');
+                  successImage.classList.remove('rotate-left');
+                  successImage.classList.add('rotate-right');
+                  timeouts.push(setTimeout(() => {
+                    hideAll();
+                    completeImage.classList.remove('hidden');
+                    timeouts.push(setTimeout(() => {
+                      hideAll();
+                      defaultImage.classList.remove('hidden');
+                    }, 700));
+                  }, 300));
+                }, 300));
+              }, 300));
+          }, 300));
         }
+
         function jsError(err) {
             console.log(err);
         }
