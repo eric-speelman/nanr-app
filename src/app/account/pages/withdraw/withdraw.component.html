@@ -7,9 +7,10 @@
       <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="4px">
         <img src="/assets/img/paypal.png" />
         <mat-form-field fxFlex="1 1 100%">
-          <input matInput placeholder="PayPal Email" (keyup)="setEmail($event)" />
+          <input matInput placeholder="PayPal Email" (keyup)="setEmail($event)" [value]="account.email" #emailInput />
         </mat-form-field>
       </div>
+      <div class="error" *ngIf="emailError$ | async">Please enter a valid email address</div>
       <button mat-raised-button color="primary" (click)="withdraw()" [disabled]="loading$ | async">Withdraw</button>
       <div *ngIf="error$ | async" class="error">An error has occured while processing your transaction. Please contact support</div>
     </div>
