@@ -43,6 +43,10 @@ export class WithdrawComponent implements OnInit {
     });
   }
 
+  setEmail($event) {
+    console.log($event);
+  }
+
   private setString(value: number) {
     this.amountString$.next(`Withdraw ${value} Nanrs for $${((value - 1) * .2).toFixed(2)}`);
   }

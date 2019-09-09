@@ -9,7 +9,7 @@
   </mat-toolbar>
   <div class="content">
     <mat-sidenav-container class="full-height">
-      <mat-sidenav mode="side" opened class="menu-container" fxLayout="column" fxLayoutAlign="start start" [opened]="opened$ | async" #sidenav>
+      <mat-sidenav mode="side" opened class="menu-container" fxLayout="column" fxLayoutAlign="start start" [opened]="opened" #sidenav>
         <div class="menu-button" [ngClass]="{'selected': selected === 'home'}" (click)="nav('')">Home</div>
         <mat-divider></mat-divider>
         <div class="menu-button" [ngClass]="{'selected': selected === 'nanrs'}" (click)="nav('purchase')">Nanrs</div>

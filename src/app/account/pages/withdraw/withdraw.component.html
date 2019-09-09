@@ -4,6 +4,12 @@
       <div>All withdraws have a 1 Nanr transaction fee</div>
       <mat-slider [disabled]="account.balance < 2" [max]="account.balance" [min]="2" thumbLabel (change)="change($event)"></mat-slider>
       <div>{{amountString$ | async}}</div>
+      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="4px">
+        <img src="/assets/img/paypal.png" />
+        <mat-form-field fxFlex="1 1 100%">
+          <input matInput placeholder="PayPal Email" (keyup)="setEmail($event)" />
+        </mat-form-field>
+      </div>
       <button mat-raised-button color="primary" (click)="withdraw()" [disabled]="loading$ | async">Withdraw</button>
       <div *ngIf="error$ | async" class="error">An error has occured while processing your transaction. Please contact support</div>
     </div>

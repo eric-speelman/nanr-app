@@ -1,7 +1,8 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Input, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AccountService, UserModel} from 'src/app/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable } from 'rxjs';
+import { MatSidenav } from '@angular/material';
 
 @Component({
   selector: 'nanr-app-frame',
@@ -9,20 +10,14 @@ import { Observable, BehaviorSubject } from 'rxjs';
   styleUrls: ['./app-frame.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AppFrameComponent implements OnInit {
+export class AppFrameComponent {
+  @ViewChild('sidenav', {static: true}) sideNav: MatSidenav;
   @Input() selected: string;
   user$: Observable<UserModel>;
-  opened$ = new BehaviorSubject(false)
+  opened = window.innerWidth > 840;
   constructor(private router: Router, private accountService: AccountService) {
     this.user$ = this.accountService.get();
   }
-
-  ngOnInit() {
-    if (window.innerWidth > 840) {
-      this.opened$.next(true);
-    }
-  }
-
   nav(path: string) {
     this.router.navigate(['account/' + path]);
   }
