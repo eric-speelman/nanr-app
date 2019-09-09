@@ -22,6 +22,8 @@
           <input type="password" matInput placeholder="Confirm Password" formControlName="confirmPassword">
       </mat-form-field>
       <div class="error" *ngIf="(submitted$ | async) && !(passwordMatch$ | async)">Passwords don't match</div>
+      <mat-checkbox formControlName="tos">I agree to the <a href="/assets/tos.html">terms of service</a></mat-checkbox>
+      <div class="error" *ngIf="(submitted$ | async) && signupForm.controls.tos.errors">Please accept the TOS</div>
     </mat-card-content>
     <mat-card-actions>
         <button mat-raised-button color="primary" type="submit" [disabled]="loading$ | async">Signup</button>

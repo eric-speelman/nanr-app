@@ -1,0 +1,21 @@
+<nanr-app-frame selected="contact">
+  {{state$ | async}}
+  <div fxLayout="row" fxLayoutAlign="center center" class="full-width full-height" *ngIf="state$ | async as state">
+    <div fxFlex="0 1 600px" *ngIf="state !== 3">
+      <h2>Get in touch</h2>
+      <div>Question, comments concers? Send us an email at <a href="mailto:contact@nanr.io">contact@nanr.io</a> or fill out the form below.</div>
+      <form [formGroup]="contactForm" (submit)="send()" fxLayout="column">
+        <mat-form-field>
+          <input matInput placeholder="Email" formControlName="email" />
+        </mat-form-field>
+        <mat-form-field>
+          <textarea matInput placeholder="Message" formControlName="message" rows="10"></textarea>
+        </mat-form-field>
+        <button type="submit" mat-raised-button color="primary" [disabled]="state !== 1">Send</button>
+      </form>
+    </div>
+    <div fxFlex="0 1 600px" *ngIf="state === 3">
+      <h2>Thank you for getting in touch. We'll get back to you soon.</h2>
+    </div>
+  </div>
+</nanr-app-frame>

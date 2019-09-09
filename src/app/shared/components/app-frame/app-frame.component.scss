@@ -36,6 +36,13 @@
   background-color: mat-color($nanr-primary, 200);
 }
 
-.nanr-icon {
-  margin-top: 12px;
+#nanr-cnt {
+  margin-top: -8px;
+  margin-right: -10px;
+}
+
+#nanr-cnt-container {
+  margin-right: 28px;
+  margin-top: 14px;
+  cursor: pointer;
 }
