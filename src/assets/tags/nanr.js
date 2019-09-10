@@ -35,12 +35,25 @@ document.addEventListener('DOMContentLoaded', function () {
     document.body.append(loginFrame);
     document.querySelectorAll('[nanr-id]').forEach(el => {
         let tagId = el.getAttribute('nanr-id');
+        let buttonSize = parseInt(el.getAttribute('nanr-size'));
+        if (!buttonSize) {
+          buttonSize = 54;
+        }
+        if(buttonSize < 40) {
+          buttonSize = 40;
+        }
         var iFrame = document.createElement('iframe');
+        let page;
+        if(window.location.hostname.toLowerCase().endsWith('nanr.io')) {
+          page = `stand://${document.referrer}|${window.location.href}`;
+        } else {
+          page = window.location.href;
+        }
         iFrame.frameBorder = 'none';
-        iFrame.width = 54;
-        iFrame.height = 54;
+        iFrame.width = buttonSize;
+        iFrame.height = buttonSize;
         iFrame.scrolling = 'no';
-        iFrame.src = `http://localhost:4200/assets/tags/button.html?tagId=${tagId}&page=${encodeURI(window.location.href)}`;
+        iFrame.src = `http://localhost:4200/assets/tags/button.html?tagId=${tagId}&page=${encodeURI(page)}`;
         el.innerHTML = iFrame.outerHTML;
         let loginContainer = document.createElement('div');
         loginContainer.style.display = 'none';

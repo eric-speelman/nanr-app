@@ -15,7 +15,8 @@ export class SignupFormComponent {
     email: ['', [Validators.required, Validators.email]],
     username: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(12), Validators.pattern(/^[a-z0-9_-]+$/i)]],
     password: ['', [Validators.required, Validators.minLength(7), Validators.maxLength(32)]],
-    confirmPassword: ['']
+    confirmPassword: [''],
+    tos: [false, [Validators.requiredTrue]]
   });
   loading$ = new BehaviorSubject(false);
   submitted$ = new BehaviorSubject(false);
@@ -24,11 +25,12 @@ export class SignupFormComponent {
   constructor(private fb: FormBuilder, private auth: AuthService) { }
 
   signup() {
-    this.loading$.next(true);
+    console.log(this.signupForm.value)
     this.serverErrors$.next({email: null, username: null});
     this.submitted$.next(true);
     this.passwordMatch$.next(this.signupForm.controls.password.value === this.signupForm.controls.confirmPassword.value === true);
     if (this.passwordMatch$.value && this.signupForm.valid) {
+      this.loading$.next(true);
       this.auth.signup(this.signupForm.value).subscribe(res => {
         this.loading$.next(false);
         if (res.success) {

@@ -1,13 +1,15 @@
 <div class="app-container">
   <mat-toolbar color="primary">
+    <button mat-icon-button (click)="sidenav.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
     <span><img src="/assets/img/logos/logo-white.png" /></span>
     <span class="fill"></span>
-    <button mat-raised-button color="accent" (click)="get()">Get Nanrs!</button>
-    <span matBadge="{{(user$ | async)?.balance}}" matBadgeColor="accent" class="nanr-icon"><img src="/assets/img/button-imgs/banana.svg" width="60" height="40" matBadge="22" /></span>
+    <span matBadge="{{(user$ | async)?.balance}}" matBadgeColor="accent" [matBadgeOverlap]="true" class="nanr-icon" (click)="get()" id="nanr-cnt-container"><img src="/assets/img/button-imgs/banana.svg" width="60" height="40" id="nanr-cnt" /></span>
   </mat-toolbar>
   <div class="content">
-    <mat-drawer-container class="full-height">
-      <mat-drawer mode="side" opened class="menu-container" fxLayout="column" fxLayoutAlign="start start">
+    <mat-sidenav-container class="full-height">
+      <mat-sidenav mode="side" opened class="menu-container" fxLayout="column" fxLayoutAlign="start start" [opened]="opened" #sidenav>
         <div class="menu-button" [ngClass]="{'selected': selected === 'home'}" (click)="nav('')">Home</div>
         <mat-divider></mat-divider>
         <div class="menu-button" [ngClass]="{'selected': selected === 'nanrs'}" (click)="nav('purchase')">Nanrs</div>
@@ -18,10 +20,12 @@
         <mat-divider></mat-divider>
         <div class="menu-button" [ngClass]="{'selected': selected === 'withdraw'}" (click)="nav('withdraw')">Withdraw</div>
         <mat-divider></mat-divider>
-      </mat-drawer>
-      <mat-drawer-content class="main-content">
+        <div class="menu-button" [ngClass]="{'selected': selected === 'contact'}" (click)="nav('contact')">Contact</div>
+        <mat-divider></mat-divider>
+      </mat-sidenav>
+      <mat-sidenav-content class="main-content">
         <ng-content></ng-content>
-      </mat-drawer-content>
-    </mat-drawer-container>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
   </div>
 </div>

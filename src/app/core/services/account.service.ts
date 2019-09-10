@@ -16,8 +16,8 @@ export class AccountService {
     return this.http.get<UserModel>(url);
   }
 
-  withdraw(amount: number) {
+  withdraw(withdraw: {amount: number, email: string}) {
     const url = `${environment.apiUrl}withdraw`;
-    return this.http.post<{success: boolean, error: string}>(url, {amount});
+    return this.http.post<{success: boolean, error: string}>(url, withdraw);
   }
 }

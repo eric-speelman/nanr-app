@@ -13,8 +13,4 @@ export class PurchaseService {
     const url = `${environment.apiUrl}purchase`;
     return this.http.post<PurchaseResponseModel>(url, purchase);
   }
-
-  withdraw(amount: number) {
-    const url = `${environment.apiUrl}withdraw`;
-  }
 }

@@ -7,7 +7,8 @@ import { WithdrawComponent } from './pages/withdraw/withdraw.component';
 import { TransactionsComponent } from './pages/transactions/transactions.component';
 import { IntegrateComponent } from './pages/integrate/integrate.component';
 import { HomeComponent } from './pages/home/home.component';
-import { AuthGuard } from 'src/app/core'
+import { ContactComponent } from './pages/contact/contact.component';
+import { AuthGuard } from 'src/app/core';
 
 const routes: Routes = [
   { path: 'signup', component: SignupComponent },
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'withdraw', component: WithdrawComponent, canActivate: [AuthGuard]  },
   { path: 'transactions', component: TransactionsComponent, canActivate: [AuthGuard] },
   { path: 'integrate', component: IntegrateComponent, canActivate: [AuthGuard] },
+  { path: 'contact', component: ContactComponent, canActivate: [AuthGuard]},
   { path: '', component: HomeComponent, canActivate: [AuthGuard] }
 ];
 

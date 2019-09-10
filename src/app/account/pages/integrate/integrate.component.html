@@ -1,12 +1,17 @@
 <nanr-app-frame selected="creators">
   <div *ngIf="tag$ | async as tag">
-    <h2>Two great ways to start collecting Nanrs!</h2>
-    <h4>Add a Nanr button to your website</h4>
-    <div class="code">{{scriptTag}}</div>
-    <div>Then add this tag wherever you want a Nanr button to appear</div>
-    <div class="code">{{generateButtonTag(tag.id)}}</div>
-    <h4>Link to your Nanr stand</h4>
-    <div>Just direct people to this link and they will be taken to your Nanr stand where they can send you Nanrs</div>
-    <div class="code">{{generateStandLink(tag.username)}}</div>
+    <h2>Two great ways to start collecting Nanrs and monetize your content</h2>
+    <h3>I have a blog or website</h3>
+    <div fxLayout="column" fxLayoutGap="8px">
+      <div>Add this script tag to the head or body of your blog or webiste.</div>
+      <div class="code">{{scriptTag}}</div>
+      <div>Then add this tag wherever you want a Nanr button to appear. You can change the "nanr-size" attribute to make the button as large or small as you want.</div>
+      <div class="code">{{generateButtonTag(tag.id)}}</div>
+    </div>
+    <h4>I have a social media or other platform</h4>
+    <div fxLayout="column" fxLayoutGap="8px">
+      <div>Just direct people to this link and they will be taken to your Nanr stand where they can send you Nanrs</div>
+      <div class="code">{{generateStandLink(tag.username)}}</div>
+    </div>
   </div>
 </nanr-app-frame>

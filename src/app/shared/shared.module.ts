@@ -13,6 +13,8 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatBadgeModule } from '@angular/material/badge';
+import { MatIconModule } from '@angular/material/icon';
+
 
 @NgModule({
   declarations: [AppFrameComponent ],
@@ -29,7 +31,8 @@ import { MatBadgeModule } from '@angular/material/badge';
     MatSliderModule,
     MatTabsModule,
     MatDividerModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatIconModule
   ],
   exports: [
     MatCardModule,
@@ -44,7 +47,8 @@ import { MatBadgeModule } from '@angular/material/badge';
     MatSliderModule,
     MatTabsModule,
     MatDividerModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatIconModule
   ]
 })
 export class SharedModule { }
