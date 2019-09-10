@@ -1,3 +1,19 @@
 <nanr-app-frame selected="home">
-  <div>home works!</div>
+  <div fxLayout="row" fxLayoutAlign="center center" class="full-height" *ngIf="summary$ | async as summary">
+    <div fxLayout="column">
+      <h1>Little Things Add Up</h1>
+      <div fxLayout="row" fxLayoutGap="8px">
+        <img [src]="getStatusImg(summary.balance)" class="nanr" />
+        <h2>You have {{summary.balance}} Nanrs in your stash</h2>
+      </div>
+      <div fxLayout="row" fxLayoutGap="8px">
+        <img [src]="getStatusImg(summary.recieved)" class="nanr" />
+        <h2>You've recieved {{summary.recieved}} Nanrs in the last 7 days</h2>
+      </div>
+      <div fxLayout="row" fxLayoutGap="8px">
+        <img [src]="getStatusImg(summary.sent)" class="nanr" />
+        <h2>You've given {{summary.sent}} Nanrs in the last 7 days</h2>
+      </div>
+    </div>
+  </div>
 </nanr-app-frame>
