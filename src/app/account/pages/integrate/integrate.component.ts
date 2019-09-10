@@ -20,7 +20,7 @@ export class IntegrateComponent implements OnInit {
   }
 
   generateButtonTag(id: string) {
-    return `<div nanr-id="${id}"></div>`;
+    return `<div nanr-id="${id}" nanr-size="54"></div>`;
   }
 
   generateStandLink(username: string) {
