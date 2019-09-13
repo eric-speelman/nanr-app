@@ -1,0 +1,103 @@
+<html>
+  <head>
+    <style>
+      body {
+        padding: 0px;
+        margin: 0px;
+        width: 100%;
+        background-color: rgb(150, 150, 150, .8);
+      }
+
+      #panel {
+        height: 50%;
+        width: 100%;
+        background-color: #fafafa;
+        position: absolute;
+        left: 0px;
+      }
+
+      #top-bar {
+        height: 24px;
+        width: 100%;
+        background-color: #3f51b5;
+      }
+
+      #content {
+        padding: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="panel">
+      <div id="top-bar"></div>
+      <div id="content">
+        <h3 id="req"></h3>
+        <div id="req-sub"></div>
+        <div>
+          <iframe src="/assets/tags/button.html" scrolling="no" frameborder="0" id="button"></iframe>
+        </div>
+      </div>
+    </div>
+    <script>
+      let button = null;
+      let params = null;
+      document.addEventListener('DOMContentLoaded', function () {
+        button = document.getElementById('button');
+        window.onresize = size;
+        size();
+      });
+      function size() {
+        let panel = document.getElementById('panel');
+        panel.style.top = Math.floor(window.innerHeight / 2) + 'px';
+      }
+      function handleMessage(message) {
+        var msgObj = JSON.parse(message.data);
+        if(msgObj) {
+          if (msgObj.type === 'wall') {
+            params = msgObj;
+            button.contentWindow.postMessage(JSON.stringify({
+              type: 'tag',
+              tagId: msgObj.username,
+              pageId: msgObj.pageId,
+              page: msgObj.page,
+              referrer: msgObj.referrer
+            }), '*');
+          }
+          else if (msgObj.type !== 'ready') {
+            if (msgObj.type === 'nanr') {
+              if (genReq(msgObj)) {
+                window.parent.postMessage(JSON.stringify({
+                  type: 'closeWall'
+                }), '*');
+              }
+            }
+            if (message.source === button.contentWindow) {
+              window.parent.postMessage(message.data, '*');
+            } else {
+              button.contentWindow.postMessage(message.data, '*')
+            }
+          } else {
+            window.parent.postMessage(JSON.stringify({
+              type: 'wallReady'
+            }), '*');
+          }
+        }
+      }
+
+      function genReq(nanrs) {
+        console.log(params);
+        console.log(nanrs);
+        if (params.pageCnt) {
+          if (params.pageCnt > nanrs.pageNanrCount) {
+            document.getElementById('req').innerHTML = 'This page needs ' + params.pageCnt + ' Nanrs';
+            document.getElementById('req-sub').innerHTML = 'Only ' + (params.pageCnt - nanrs.pageNanrCount) + ' more to go!';
+            return false;
+          }
+          return true;
+        }
+      }
+      window.addEventListener('message', handleMessage, false);
+    </script>
+
+  </body>
+</html>
