@@ -1,9 +1,12 @@
 <form [formGroup]="signupForm" (ngSubmit)="signup()">
   <mat-card>
-    <mat-card-header>
-        <mat-card-title>Signup</mat-card-title>
-    </mat-card-header>
     <mat-card-content fxLayout="column" fxLayoutGap="8px">
+      <div fxLayout="row" fxLayoutAlign="center center">
+        <img src="/assets/img/logos/logo-black.png" />
+      </div>
+      <h2>...because little things add up</h2>
+      <div>Nanr enables you to support anyone by giving them a nano-contribution - which can later be exchanged by the recipient for cash.</div>
+      <h2>Join the Nanrlution today!</h2>
       <mat-form-field>
         <input matInput placeholder="Email" autocomplete="email" formControlName="email">
       </mat-form-field>
@@ -26,7 +29,9 @@
       <div class="error" *ngIf="(submitted$ | async) && signupForm.controls.tos.errors">Please accept the TOS</div>
     </mat-card-content>
     <mat-card-actions>
-        <button mat-raised-button color="primary" type="submit" [disabled]="loading$ | async">Signup</button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="loading$ | async" class="full-width">Signup</button>
+        <br /><br/>
+        <div>Already have an account? <a href="javascrip:void(0)" (click)='loginClick()'>Login</a></div>
     </mat-card-actions>
   </mat-card>
 </form>

@@ -1,11 +1,14 @@
 <div fxLayout="row" class="full-width full-height" fxLayoutAlign="center center">
     <form class="login-form" fxFlex="0 1 600px" [formGroup]="loginForm" (ngSubmit)="login()">
       <mat-card class="full-width">
-        <mat-card-header>
-          <mat-card-title>Login</mat-card-title>
-        </mat-card-header>
         <mat-card-content>
           <div fxLayout="column">
+            <div fxLayout="row" fxLayoutAlign="center center">
+                <img src="/assets/img/logos/logo-black.png" />
+            </div>
+            <div fxLayout="row" fxLayoutAlign="center center">
+              <h2>Welcome Back!</h2>
+            </div>
             <mat-form-field>
               <input matInput placeholder="Email" autocomplete="email" formControlName="email"/>
             </mat-form-field>

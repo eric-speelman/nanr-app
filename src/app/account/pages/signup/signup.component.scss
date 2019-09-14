@@ -6,3 +6,7 @@
   background-color: mat-color($nanr-primary);
   padding: 8px;
 }
+
+.content-container {
+  overflow: scroll;
+}

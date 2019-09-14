@@ -51,3 +51,26 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .dark {
   color: #fff;
 }
+
+a:link {
+  color: #0356fc;
+  text-decoration: none;
+}
+
+/* visited link */
+a:visited {
+  color: #0356fc;
+  text-decoration: none;
+}
+
+/* mouse over link */
+a:hover {
+  color: #0356fc;
+  text-decoration: underline;
+}
+
+/* selected link */
+a:active {
+  color: mat-color($nanr-accent);
+  text-decoration: none;
+}

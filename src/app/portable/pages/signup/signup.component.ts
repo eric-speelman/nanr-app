@@ -15,4 +15,8 @@ export class SignupComponent {
   signedup() {
     this.router.navigate(['portable/add']);
   }
+
+  login() {
+    this.router.navigateByUrl('portable/login');
+  }
 }

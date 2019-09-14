@@ -20,4 +20,8 @@ export class SignupComponent {
       this.router.navigateByUrl('account/purchase', {state: {redirect: this.redirect}});
     }
   }
+
+  login() {
+    this.router.navigateByUrl('account/login', {state: {redirect: this.redirect}});
+  }
 }
