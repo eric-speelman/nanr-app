@@ -19,8 +19,10 @@
           </div>
         </mat-card-content>
         <mat-card-actions>
-          <button type="submit" mat-raised-button color="primary" *ngIf="!(isLoading$ | async)">Login</button>
-          <button mat-raised-button color="primary" *ngIf="(isLoading$ | async)" disabled="true">Logging in...</button>
+          <button type="submit" mat-raised-button color="primary" *ngIf="!(isLoading$ | async)" class="full-width">Login</button>
+          <button mat-raised-button color="primary" *ngIf="(isLoading$ | async)" disabled="true" class="full-width">Logging in...</button>
+          <br /><br />
+          <div>Don't have an account? <a href="javascript:void(0)" (click)="signupClick()">Signup</a></div>
         </mat-card-actions>
       </mat-card>
     </form>

@@ -18,6 +18,7 @@ export class LoginFormComponent {
   isLoading$ = new BehaviorSubject(false);
   hasError$ = new BehaviorSubject(false);
   @Output() loggedIn = new EventEmitter<SessionModel>();
+  @Output() signup = new EventEmitter();
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {
   }
 
@@ -37,5 +38,9 @@ export class LoginFormComponent {
       this.hasError$.next(true);
       this.isLoading$.next(false);
     });
+  }
+
+  signupClick() {
+    this.signup.next();
   }
 }
