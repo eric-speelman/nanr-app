@@ -15,8 +15,12 @@ export class LoginFormComponent {
     email: [''],
     password: ['']
   });
+  resetForm = this.fb.group({
+    email: ['']
+  });
   isLoading$ = new BehaviorSubject(false);
   hasError$ = new BehaviorSubject(false);
+  isResetting$ = new BehaviorSubject(false);
   @Output() loggedIn = new EventEmitter<SessionModel>();
   @Output() signup = new EventEmitter();
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {
@@ -42,5 +46,13 @@ export class LoginFormComponent {
 
   signupClick() {
     this.signup.next();
+  }
+
+  resetStart() {
+    this.isResetting$.next(true);
+  }
+
+  reset() {
+
   }
 }
