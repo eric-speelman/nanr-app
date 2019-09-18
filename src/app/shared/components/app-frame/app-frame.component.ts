@@ -13,6 +13,7 @@ import { MatSidenav } from '@angular/material';
 export class AppFrameComponent {
   @ViewChild('sidenav', {static: true}) sideNav: MatSidenav;
   @Input() selected: string;
+  @Input() loading = false;
   user$: Observable<UserModel>;
   opened = window.innerWidth > 840;
   constructor(private router: Router, private accountService: AccountService) {

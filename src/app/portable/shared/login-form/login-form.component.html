@@ -27,22 +27,35 @@
         </mat-card-actions>
       </mat-card>
     </form>
-    <form class="reset-form" fxFlex="0 1 600px" [formGroup]="resetForm" (ngSubmit)="reset()" *ngIf="isResetting$ | async">
+    <form class="reset-form" fxFlex="0 1 600px" [formGroup]="resetForm" (ngSubmit)="reset()" *ngIf="(isResetting$ | async) && !(resetComplete$ | async)">
       <mat-card>
+        <mat-card-content>
         <div fxLayout="column">
           <div fxLayout="row" fxLayoutAlign="center center">
             <img src="/assets/img/logos/logo-black.png" />
           </div>
-          <div fxLayout="row" fxLayoutAlign="center center">
-            <h2>Password Reset</h2>
+            <div fxLayout="row" fxLayoutAlign="center center">
+              <h2>Password Reset</h2>
+            </div>
+            <mat-form-field>
+              <input matInput placeholder="Email" autocomplete="email" formControlName="email"/>
+            </mat-form-field>
+            <div class="error" *ngIf="(resetSubmitted$ | async) && resetForm.controls.email.errors">Please enter your email address</div>
           </div>
-          <mat-form-field>
-            <input matInput placeholder="Email" autocomplete="email" formControlName="email"/>
-          </mat-form-field>
-        </div>
-      </mat-card>
+        </mat-card-content>
       <mat-card-actions>
-        <button type="submit" mat-raised-button color="primary" *ngIf="!(isLoading$ | async)" class="full-width">Reset Password</button>
+        <button type="submit" mat-raised-button color="primary" [disabled]="isLoading$ | async" class="full-width">Reset Password</button>
       </mat-card-actions>
-    </form>
+    </mat-card>
+  </form>
+  <mat-card *ngIf="resetComplete$ | async">
+    <mat-card-content>
+      <div fxLayout="column">
+        <div fxLayout="row" fxLayoutAlign="center center">
+          <img src="/assets/img/logos/logo-black.png" />
+        </div>
+      </div>
+      <h2>Please check your email for password a reset link.</h2>
+      </mat-card-content>
+  </mat-card>
 </div>

@@ -1,19 +1,32 @@
-<nanr-app-frame selected="home">
-  <div fxLayout="row" fxLayoutAlign="center center" class="full-height" *ngIf="summary$ | async as summary">
-    <div fxLayout="column">
-      <h1>Little Things Add Up</h1>
-      <div fxLayout="row" fxLayoutGap="8px">
-        <img [src]="getStatusImg(summary.balance)" class="nanr" />
-        <h2>You have {{summary.balance}} Nanrs in your stash</h2>
+<nanr-app-frame selected="home" [loading]="!(summary$ | async)">
+  <div fxLayout="row wrap" fxLayoutAlign="center center" class="page-container" *ngIf="summary$ | async as summary">
+    <div fxLayout="column" fxLayoutGap="8px" class="cell-container">
+      <div fxLayout="column">
+        <div class="stash-container" fxLayout="column" fxLayoutAlign="start center">
+          <h2>Stash</h2>
+          <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px">
+            <h1>{{summary.balance}}</h1>
+            <img src="/assets/img/banana.svg" />
+          </div>
+        </div>
       </div>
-      <div fxLayout="row" fxLayoutGap="8px">
-        <img [src]="getStatusImg(summary.recieved)" class="nanr" />
-        <h2>You've recieved {{summary.recieved}} Nanrs in the last 7 days</h2>
-      </div>
-      <div fxLayout="row" fxLayoutGap="8px">
-        <img [src]="getStatusImg(summary.sent)" class="nanr" />
-        <h2>You've given {{summary.sent}} Nanrs in the last 7 days</h2>
-      </div>
+      <button mat-flat-button color="primary" class="full-width" (click)="add()">Add</button>
+      <button mat-flat-button color="primary" class="full-width" (click)="withdraw()">Withdraw</button>
+    </div>
+    <div fxLayout="column" fxLayoutGap="8px" class="cell-container">
+      <div class="stash-container right" fxLayout="column">
+          <div fxLayout="row" fxLayoutAlign="center center">
+            <h2>This Week</h2>
+          </div>
+          <div fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="16px">
+            <h2>Sent:</h2>
+            <h1>{{summary.sent}}</h1>
+          </div>
+          <div fxLayout="row" fxLayoutAlign="space-between start"  fxLayoutGap="16px">
+            <h2>Recieved:</h2>
+            <h1>{{summary.recieved}}</h1>
+          </div>
+        </div>
     </div>
   </div>
 </nanr-app-frame>

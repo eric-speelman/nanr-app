@@ -1,4 +1,4 @@
-<nanr-app-frame selected="creators">
+<nanr-app-frame selected="creators" [loading]="!(tag$ | async)">
   <div *ngIf="tag$ | async as tag">
     <h2>Two great ways to start collecting Nanrs and monetize your content</h2>
     <h3>I have a blog or website</h3>

@@ -10,11 +10,11 @@
   <div class="content">
     <mat-sidenav-container class="full-height">
       <mat-sidenav mode="side" opened class="menu-container" fxLayout="column" fxLayoutAlign="start start" [opened]="opened" #sidenav>
-        <div class="menu-button" [ngClass]="{'selected': selected === 'home'}" (click)="nav('')">Home</div>
+        <div class="menu-button" [ngClass]="{'selected': selected === 'home'}" (click)="nav('')">Stash</div>
         <mat-divider></mat-divider>
         <div class="menu-button" [ngClass]="{'selected': selected === 'nanrs'}" (click)="nav('purchase')">Nanrs</div>
         <mat-divider></mat-divider>
-        <div class="menu-button" [ngClass]="{'selected': selected === 'creators'}" (click)="nav('integrate')">Creators</div>
+        <div class="menu-button" [ngClass]="{'selected': selected === 'creators'}" (click)="nav('integrate')">Toolbox</div>
         <mat-divider></mat-divider>
         <div class="menu-button" [ngClass]="{'selected': selected === 'transactions'}" (click)="nav('transactions')">Transactions</div>
         <mat-divider></mat-divider>
@@ -24,7 +24,12 @@
         <mat-divider></mat-divider>
       </mat-sidenav>
       <mat-sidenav-content class="main-content">
-        <ng-content></ng-content>
+        <ng-content *ngIf="!loading else spinner"></ng-content>
+        <ng-template #spinner>
+          <div fxLayout="row" fxLayoutAlign="center center" class="full-height">
+            <mat-spinner></mat-spinner>
+          </div>
+        </ng-template>
       </mat-sidenav-content>
     </mat-sidenav-container>
   </div>

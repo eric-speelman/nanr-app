@@ -17,7 +17,7 @@ export class SignupComponent {
     if (this.redirect && this.redirect.indexOf('s/') >= 0) {
       this.router.navigateByUrl('s/app/purchase', {state: {redirect: this.redirect}});
     } else {
-      this.router.navigateByUrl('account/home');
+      this.router.navigateByUrl('', {state: {isSignup: true}});
     }
   }
 

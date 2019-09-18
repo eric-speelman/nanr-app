@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { AuthService, SessionModel } from 'src/app/core';
 import { BehaviorSubject } from 'rxjs';
 
@@ -16,11 +16,13 @@ export class LoginFormComponent {
     password: ['']
   });
   resetForm = this.fb.group({
-    email: ['']
+    email: ['', [Validators.required, Validators.email]]
   });
   isLoading$ = new BehaviorSubject(false);
   hasError$ = new BehaviorSubject(false);
+  resetComplete$ = new BehaviorSubject(false);
   isResetting$ = new BehaviorSubject(false);
+  resetSubmitted$ = new BehaviorSubject(false);
   @Output() loggedIn = new EventEmitter<SessionModel>();
   @Output() signup = new EventEmitter();
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {
@@ -53,6 +55,12 @@ export class LoginFormComponent {
   }
 
   reset() {
-
+    this.resetSubmitted$.next(true);
+    if (this.resetForm.valid) {
+      this.auth.resetPassword(this.resetForm.value.email).subscribe(() => {
+        this.resetComplete$.next(true);
+      });
+      this.isLoading$.next(true);
+    }
   }
 }

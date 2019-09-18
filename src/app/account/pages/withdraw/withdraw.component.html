@@ -1,4 +1,4 @@
-<nanr-app-frame selected="withdraw">
+<nanr-app-frame selected="withdraw" [loading]="!(account$ | async)">
   <div *ngIf="account$ | async as account" fxLayout="row" fxLayoutAlign="center center" class="full-height">
     <div fxLayout="column" fxLayoutGap="8px" *ngIf="!(success$ | async) else success">
       <div>All withdraws have a 1 Nanr transaction fee</div>

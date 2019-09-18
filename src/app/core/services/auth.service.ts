@@ -21,7 +21,12 @@ export class AuthService {
   }
 
   resetPassword(email: string) {
-    const url = `${environment.apiUrl}api/account/reset-password`;
+    const url = `${environment.apiUrl}account/reset-password`;
     return this.http.post(url, {email});
+  }
+
+  resetPasswordSet(reset: {token: string, password: string}) {
+    const url = `${environment.apiUrl}account/reset-password-set`;
+    return this.http.post(url, reset);
   }
 }

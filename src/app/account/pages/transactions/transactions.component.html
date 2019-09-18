@@ -1,4 +1,4 @@
-<nanr-app-frame selected="transactions">
+<nanr-app-frame selected="transactions" [loading]="!(transactions$ | async)">
   <mat-tab-group *ngIf="transactions$ | async as transactions">
     <mat-tab label="Nanrs Recieved">
       <table *ngIf="transactions.clicksRecieved.length > 0 else na">

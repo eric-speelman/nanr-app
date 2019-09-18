@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { UserModel } from './models';
-import { first } from 'rxjs/operators';
+import { share } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,9 @@ export class AccountService {
 
   get() {
     const url = `${environment.apiUrl}me`;
-    return this.http.get<UserModel>(url);
+    return this.http.get<UserModel>(url).pipe(
+      share()
+    );
   }
 
   withdraw(withdraw: {amount: number, email: string}) {

@@ -14,6 +14,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 @NgModule({
@@ -32,7 +34,9 @@ import { MatIconModule } from '@angular/material/icon';
     MatTabsModule,
     MatDividerModule,
     MatBadgeModule,
-    MatIconModule
+    MatIconModule,
+    MatDialogModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     MatCardModule,
@@ -48,7 +52,9 @@ import { MatIconModule } from '@angular/material/icon';
     MatTabsModule,
     MatDividerModule,
     MatBadgeModule,
-    MatIconModule
+    MatIconModule,
+    MatDialogModule,
+    MatProgressSpinnerModule
   ]
 })
 export class SharedModule { }

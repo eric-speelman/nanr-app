@@ -11,6 +11,8 @@ import { TransactionsComponent } from './pages/transactions/transactions.compone
 import { IntegrateComponent } from './pages/integrate/integrate.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ContactComponent } from './pages/contact/contact.component';
+import { PasswordResetComponent } from './pages/password-reset/password-reset.component';
+import { WelcomeDialogComponent } from './pages/home/welcome-dialog/welcome-dialog.component';
 
 @NgModule({
   declarations: [
@@ -21,13 +23,16 @@ import { ContactComponent } from './pages/contact/contact.component';
     TransactionsComponent,
     IntegrateComponent,
     HomeComponent,
-    ContactComponent
+    ContactComponent,
+    PasswordResetComponent,
+    WelcomeDialogComponent
   ],
   imports: [
     CommonModule,
     AccountRoutingModule,
     SharedModule,
     PortableModule
-  ]
+  ],
+  entryComponents: [WelcomeDialogComponent]
 })
 export class AccountModule { }
