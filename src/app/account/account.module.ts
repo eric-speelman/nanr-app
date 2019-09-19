@@ -13,6 +13,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { ContactComponent } from './pages/contact/contact.component';
 import { PasswordResetComponent } from './pages/password-reset/password-reset.component';
 import { WelcomeDialogComponent } from './pages/home/welcome-dialog/welcome-dialog.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { WelcomeDialogComponent } from './pages/home/welcome-dialog/welcome-dial
     HomeComponent,
     ContactComponent,
     PasswordResetComponent,
-    WelcomeDialogComponent
+    WelcomeDialogComponent,
+    ProfileComponent
   ],
   imports: [
     CommonModule,

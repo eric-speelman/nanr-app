@@ -22,6 +22,8 @@
         <mat-divider></mat-divider>
         <div class="menu-button" [ngClass]="{'selected': selected === 'contact'}" (click)="nav('contact')">Contact</div>
         <mat-divider></mat-divider>
+        <div class="menu-button" [ngClass]="{'selected': selected === 'profile'}" (click)="nav('profile')">Account</div>
+        <mat-divider></mat-divider>
       </mat-sidenav>
       <mat-sidenav-content class="main-content">
         <ng-content *ngIf="!loading else spinner"></ng-content>

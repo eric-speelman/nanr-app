@@ -1,0 +1,50 @@
+<nanr-app-frame selected="profile" [loading]="!profile">
+  <div fxLayout="column" fxLayoutGap="8px" *ngIf="profile">
+    <h1>Profile</h1>
+    <mat-divider></mat-divider>
+    <h2>Account</h2>
+    <div fxLayout="row" fxLayoutGap="4px">
+      <div>Username:</div>
+      <div><strong>{{profile.username}}</strong></div>
+    </div>
+    <form fxLayout="row" fxLayoutGap="8px" fxLayoutAlign="start center" [formGroup]="emailForm" (ngSubmit)="saveEmail()">
+      <div fxLayout="column" fxFlex="250px">
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Email" formControlName="email" />
+        </mat-form-field>
+        <div class="error" *ngIf="(isEmailSubmitted$ | async) && (emailForm.controls.email.errors)">Please enter a valid email address</div>
+        <div class="error" *ngIf="emailServerError$ | async as error">{{error}}</div>
+      </div>
+      <button mat-mini-fab color="primary" (click)="editEmail()" *ngIf="!(isEditingEmail$ | async) else save">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <ng-template #save>
+        <button type="submit" mat-mini-fab color="primary" [disabled]="isEmailLoading$ | async">
+          <mat-icon>save</mat-icon>
+        </button>
+      </ng-template>
+    </form>
+    <mat-divider></mat-divider>
+    <h2>Change Password</h2>
+    <form fxLayout="column" fxLayoutGap="8px" fxLayoutAlign="start start" [formGroup]="passwordForm" (ngSubmit)="changePassword()">
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Password" type="password" formControlName="password" />
+      </mat-form-field>
+      <div class="error" *ngIf="(isPasswordSubmitted$ | async) && (passwordServerError$ | async)">Incorrect Password</div>
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="New Password" type="password" formControlName="newPassword" />
+      </mat-form-field>
+      <div class="error" *ngIf="(isPasswordSubmitted$ | async) && passwordForm.controls.newPassword.errors">Please enter a password between 7 and 32 characters</div>
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Confirm Password" type="password" formControlName="confirmPassword" />
+      </mat-form-field>
+      <div class="error" *ngIf="(isPasswordSubmitted$ | async) && !(passwordsMatch$ | async)">Passwords don't match</div>
+      <div class="success" *ngIf="passwordSuccess$ | async">Your password has been changed</div>
+      <button mat-raised-button color="primary" [disabled]="isPasswordLoading$ | async">Change Password</button>
+    </form>
+    <mat-divider></mat-divider>
+    <div fxLayout="row">
+      <button mat-raised-button (click)="logout()" [disabled]="logoutLoading$ | async">Logout</button>
+    </div>
+  </div>
+</nanr-app-frame>
