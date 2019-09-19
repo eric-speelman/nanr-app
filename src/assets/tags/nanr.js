@@ -36,7 +36,6 @@ var nanr = (() => {
   let requireParams = null;
   let wallReady = false;
   let nanrButtons = [];
-  let wallUp = false;
   document.addEventListener('DOMContentLoaded', function () {
       let isStand = getUrlParameter('stand');
       if (isStand) {
@@ -131,19 +130,16 @@ var nanr = (() => {
       }
   }
 
-  function showWall() {
-
-  }
-
   function getUrlParameter(name) {
     name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
     var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
     var results = regex.exec(location.search);
     return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
   }
+
   window.addEventListener('message', handleMessage, false);
   let nanrInterface = {
-    onNanr: (callback) => {
+    onNanr: (callback, virtualButtons) => {
       nanrCallback = callback;
       if (nanrCnt) {
         nanrCallback(nanrCnt);

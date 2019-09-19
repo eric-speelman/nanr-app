@@ -200,8 +200,14 @@
           .then(res => res.json())
           .then(view => {
             nanrCnt = view;
-            nanrCnt.pageNanrCount = parseInt(nanrCnt.pageNanrCount) || null;
-            nanrCnt.totalNanrCount = parseInt(nanrCnt.totalNanrCount) || null;
+            nanrCnt.pageNanrCount = parseInt(nanrCnt.pageNanrCount);
+            nanrCnt.totalNanrCount = parseInt(nanrCnt.totalNanrCount);
+            if(!nanrCnt.pageNanrCount && nanrCnt.pageNanrCount !== 0) {
+              nanrCnt.pageNanrCount = null;
+            }
+            if(!nanrCnt.totalNanrCount && nanrCnt.totalNanrCount !== 0) {
+              nanrCnt.totalNanrCount = null;
+            }
             view.type = 'nanr';
             view.pageId = pageId;
             window.parent.postMessage(JSON.stringify(view), '*');
