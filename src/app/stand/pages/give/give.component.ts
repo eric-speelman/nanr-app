@@ -1,10 +1,10 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { AuthService, ClickService } from 'src/app/core';
+import { AccountService, ClickService, ProfileModel } from 'src/app/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl, SafeStyle } from '@angular/platform-browser';
 
 @Component({
   selector: 'nanr-give',
@@ -14,10 +14,12 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 })
 export class GiveComponent implements OnInit {
   username$: Observable<string>;
+  profile$: Observable<ProfileModel>;
   state$ = new BehaviorSubject('default');
   buttonUrl$ = new BehaviorSubject<SafeResourceUrl>(undefined);
   constructor(private sanitizer: DomSanitizer, private router: Router,
-              private route: ActivatedRoute, private clickService: ClickService) { }
+              private route: ActivatedRoute, private clickService: ClickService,
+              private accountService: AccountService) { }
 
   ngOnInit() {
     this.username$ = this.route.paramMap.pipe(
@@ -26,16 +28,20 @@ export class GiveComponent implements OnInit {
         if (username) {
           username = username.substr(0, 1).toUpperCase() + username.substr(1).toLowerCase();
         }
-        console.log(`${environment.buttonUrl}?tagId=${username}`)
         this.buttonUrl$.next(
           this.sanitizer.bypassSecurityTrustResourceUrl(`${environment.buttonUrl}?tagId=${username}&page=${window.location.href}`));
         return username;
       })
     );
+    this.profile$ = this.accountService.profile();
     const me = this;
     window.addEventListener('message', message => {
       me.handleMessage(message, me);
     }, false);
+  }
+
+  getBackground(id: string) {
+    return this.sanitizer.bypassSecurityTrustStyle(`url('${environment.apiUrl}account/stand-pic/${id}')`);
   }
 
   send() {

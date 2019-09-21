@@ -1,6 +1,65 @@
 <nanr-app-frame selected="profile" [loading]="!profile">
   <div fxLayout="column" fxLayoutGap="8px" *ngIf="profile">
-    <h1>Profile</h1>
+    <h2>Profile</h2>
+    <div>These items will appear in your Nanr Stand.</div>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
+      <div>Profile Picture: </div>
+      <nanr-profile-pic [username]="profile.id" #profilePicture></nanr-profile-pic>
+      <input type="file" (change)="profilePicUpload(profilePictureInput.files[0])" #profilePictureInput/>
+    </div>
+    <div class="error" *ngIf="profilePictureError$ | async as profilePicError">{{profilePicError}}</div>
+    <form fxLayout="row" fxLayoutGap="8px" fxLayoutAlign="start center" [formGroup]="taglineForm" (ngSubmit)="saveTagline()">
+      <div fxLayout="column" fxFlex="250px">
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Tagline" formControlName="tagline" />
+        </mat-form-field>
+        <div class="error" *ngIf="(isTaglineSubmitted$ | async) && (taglineForm.controls.tagline.errors)">Tagline can't be longer than 125 characters</div>
+      </div>
+      <button mat-mini-fab color="primary" (click)="editTagline()" *ngIf="!(isEditingTagline$ | async) else save">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <ng-template #save>
+        <button type="submit" mat-mini-fab color="primary" [disabled]="isTaglineLoading$ | async">
+          <mat-icon>save</mat-icon>
+        </button>
+      </ng-template>
+    </form>
+    <form fxLayout="row" fxLayoutGap="8px" fxLayoutAlign="start start" [formGroup]="bioForm" (ngSubmit)="saveBio()">
+      <div fxLayout="column" fxFlex="250px">
+        <mat-form-field class="example-full-width">
+          <textarea matInput placeholder="Bio" formControlName="bio" rows="10"></textarea>
+        </mat-form-field>
+        <div class="error" *ngIf="(isBioSubmitted$ | async) && (bioForm.controls.bio.errors)">Bio can't be longer than 500 characters</div>
+      </div>
+      <button mat-mini-fab color="primary" (click)="editBio()" *ngIf="!(isEditingBio$ | async) else save">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <ng-template #save>
+        <button type="submit" mat-mini-fab color="primary" [disabled]="isBioLoading$ | async">
+          <mat-icon>save</mat-icon>
+        </button>
+      </ng-template>
+    </form>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
+      <label>Nanr Stand Image: </label>
+      <input type="file" (change)="standPicUpload(standPictureInput.files[0])" #standPictureInput/>
+    </div>
+    <button mat-fab color="primary" (click)="deleteStandBackground()" [disabled]="isDeleteStandLoading$ | async">
+      <mat-icon>delete</mat-icon>
+    </button>
+    <div class="error" *ngIf="standPictureError$ | async as standPicError">{{standPicError}}</div>
+    <div class="stand-img" [ngStyle]="{'backgroundImage': standImage$ | async}"></div>
+    <div>Nanr Stand Background color: </div>
+    <div class="color-picker">
+        <color-chrome [color]="profile.backgroundColor" (onChangeComplete)="backgroundColorChange($event)"></color-chrome>
+    </div>
+    <label>Nanr Stand Text Color:</label>
+    <form fxLayout="row" [formGroup]="textForm">
+      <mat-radio-group formControlName="darkText">
+        <mat-radio-button [value]="true">Dark</mat-radio-button>
+        <mat-radio-button [value]="false">Light</mat-radio-button>
+      </mat-radio-group>
+    </form>
     <mat-divider></mat-divider>
     <h2>Account</h2>
     <div fxLayout="row" fxLayoutGap="4px">

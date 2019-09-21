@@ -14,6 +14,8 @@ import { ContactComponent } from './pages/contact/contact.component';
 import { PasswordResetComponent } from './pages/password-reset/password-reset.component';
 import { WelcomeDialogComponent } from './pages/home/welcome-dialog/welcome-dialog.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { ColorChromeModule } from 'ngx-color/chrome';
+import { MatRadioModule } from '@angular/material/radio';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,9 @@ import { ProfileComponent } from './pages/profile/profile.component';
     CommonModule,
     AccountRoutingModule,
     SharedModule,
-    PortableModule
+    PortableModule,
+    ColorChromeModule,
+    MatRadioModule
   ],
   entryComponents: [WelcomeDialogComponent]
 })

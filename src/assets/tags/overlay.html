@@ -17,9 +17,18 @@
       #overlay {
         height: 50%;
         background-color: rgb(100, 100, 100);
-        opacity: 0.75;
+      }
+
+      .nanr {
+        opacity: 0.8;
         background-image: url('/assets/img/banana-shadow.svg');
         background-size: 54px 54px;
+      }
+
+      .lines {
+        background-image: url('data:image/svg+xml;charset=utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cdefs%3E%3Cpattern%20id%3D%22a%22%20patternUnits%3D%22userSpaceOnUse%22%20width%3D%225%22%20height%3D%225%22%20patternTransform%3D%22rotate(45)%22%3E%3Cpath%20stroke%3D%22%23000%22%20d%3D%22M1%200v5%22%2F%3E%3C%2Fpattern%3E%3C%2Fdefs%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22url(%23a)%22%2F%3E%3C%2Fsvg%3E');
+        content: '';
+        opacity: 0.8;
       }
 
       #panel {
@@ -106,7 +115,16 @@
             if (params.text) {
               params.text = params.text.replace(/[^A-Za-z0-9@#_-]/, '');
             } else {
-              params.text = "Little things go a long way. Just a few Nanrs are need to view this content"
+              params.text = "Little things go a long way. Just a few Nanrs are needed to view this content."
+            }
+            if (!params.background) {
+              params.background = 'nanr';
+            }
+            params.background = params.background.toLowerCase();
+            if (params.background === 'line' || params.background === 'lines') {
+              document.getElementById('overlay').classList.add('lines');
+            } else if(params.background !== 'solid') {
+              document.getElementById('overlay').classList.add('nanr');
             }
             document.getElementById("title").innerHTML = params.title;
             document.getElementById("text").innerHTML = params.text;
@@ -124,6 +142,10 @@
                 window.parent.postMessage(JSON.stringify({
                   type: 'closeWall'
                 }), '*');
+              } else {
+                window.parent.postMessage(JSON.stringify({
+                  type: 'showWall'
+                }), '*');
               }
             }
             if (message.source === button.contentWindow) {
@@ -140,8 +162,6 @@
       }
 
       function genReq(nanrs) {
-        console.log(params);
-        console.log(nanrs);
         if (params.pageCnt) {
           if (params.pageCnt > nanrs.pageNanrCount) {
             document.getElementById('req').innerHTML = 'Only ' + (params.pageCnt - nanrs.pageNanrCount) + ' more to go!';

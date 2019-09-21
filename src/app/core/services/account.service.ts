@@ -30,7 +30,7 @@ export class AccountService {
     );
   }
 
-  updateProfile(profile: {email: string}) {
+  updateProfile(profile: {email?: string, tagline?: string, bio?: string, backgroundColor?: string, darkText?: boolean}) {
     const url = `${environment.apiUrl}account/profile`;
     return this.http.post(url, profile);
   }
@@ -45,5 +45,24 @@ export class AccountService {
     return this.http.post(url, {}).pipe(
       tap(() => window.localStorage.removeItem('session'))
     );
+  }
+
+  uploadProfilePic(file: any) {
+    const formData = new FormData();
+    formData.append('file', file);
+    const url = `${environment.apiUrl}account/upload/profile-pic`;
+    return this.http.post(url, formData);
+  }
+
+  uploadStandPic(file: any) {
+    const formData = new FormData();
+    formData.append('file', file);
+    const url = `${environment.apiUrl}account/upload/stand-pic`;
+    return this.http.post(url, formData);
+  }
+
+  deleteStandBackground() {
+    const url = `${environment.apiUrl}account/stand-pic`;
+    return this.http.delete(url);
   }
 }

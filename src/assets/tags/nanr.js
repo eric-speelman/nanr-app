@@ -36,6 +36,7 @@ var nanr = (() => {
   let requireParams = null;
   let wallReady = false;
   let nanrButtons = [];
+  let bodyOverflow = null;
   document.addEventListener('DOMContentLoaded', function () {
       let isStand = getUrlParameter('stand');
       if (isStand) {
@@ -126,6 +127,12 @@ var nanr = (() => {
             }
           } else if(msgObj.type === 'closeWall') {
             wallFrame.style.display = 'none';
+            console.log(bodyOverflow);
+            document.body.style.overflow = bodyOverflow;
+          } else if(msgObj.type === 'showWall') {
+            bodyOverflow = document.body.style.overflow || 'scroll';
+            document.body.style.overflow = 'hidden'
+            wallFrame.style.display = 'block';
           }
       }
   }
@@ -146,8 +153,6 @@ var nanr = (() => {
       }
     },
     require: (params) => {
-      document.body.style.overflow = 'hidden'
-      wallFrame.style.display = 'block';
       requireParams = params;
       requireParams.type = 'wall';
       requireParams.page = window.location.href,

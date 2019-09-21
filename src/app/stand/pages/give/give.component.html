@@ -1,9 +1,10 @@
-<div class="give-container">
+<div class="give-container" *ngIf="profile$ | async as profile"  [ngClass]="{'light': !profile.darkText, 'dark': profile.darkText}" [ngStyle]="{backgroundColor: profile.backgroundColor}" [style.background-image]="getBackground(profile.id)">
   <div fxLayout="row" fxLayoutAlign="center center" class="full-height">
-    <div *ngIf="username$ | async as username">
+    <div *ngIf="username$ | async as username" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="8px">
       <h1>{{username}}'s Nanr Stand</h1>
+      <h3 *ngIf="profile.tagline">{{profile.tagline}}</h3>
       <iframe *ngIf="buttonUrl$ | async as buttonUrl" scrolling="no" frameborder=0 [src]="buttonUrl" width="300" height="300"></iframe>
-      <div>Click the banana to give {{username}} a Nanr</div>
+      <div *ngIf="profile.bio" fxFlex="1 1 auto">{{profile.bio}}</div>
     </div>
   </div>
 </div>
