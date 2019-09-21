@@ -1,10 +1,10 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { AccountService, ClickService, ProfileModel } from 'src/app/core';
+import { AccountService, ClickService, StandModel, UserModel } from 'src/app/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { DomSanitizer, SafeResourceUrl, SafeStyle } from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'nanr-give',
@@ -14,26 +14,29 @@ import { DomSanitizer, SafeResourceUrl, SafeStyle } from '@angular/platform-brow
 })
 export class GiveComponent implements OnInit {
   username$: Observable<string>;
-  profile$: Observable<ProfileModel>;
+  stand$: Observable<StandModel>;
   state$ = new BehaviorSubject('default');
+  me$: Observable<UserModel>;
   buttonUrl$ = new BehaviorSubject<SafeResourceUrl>(undefined);
   constructor(private sanitizer: DomSanitizer, private router: Router,
               private route: ActivatedRoute, private clickService: ClickService,
               private accountService: AccountService) { }
 
   ngOnInit() {
-    this.username$ = this.route.paramMap.pipe(
-      map(params => {
+    this.route.paramMap.subscribe(params => {
         let username = params.get('username');
         if (username) {
           username = username.substr(0, 1).toUpperCase() + username.substr(1).toLowerCase();
+          this.stand$ = this.accountService.getStand(username);
         }
         this.buttonUrl$.next(
           this.sanitizer.bypassSecurityTrustResourceUrl(`${environment.buttonUrl}?tagId=${username}&page=${window.location.href}`));
         return username;
-      })
-    );
-    this.profile$ = this.accountService.profile();
+      });
+    const session = window.localStorage.getItem('session');
+    if (session) {
+      this.me$ = this.accountService.get();
+    }
     const me = this;
     window.addEventListener('message', message => {
       me.handleMessage(message, me);
@@ -55,7 +58,7 @@ export class GiveComponent implements OnInit {
         if (!res.success) {
           const errors = res.errors.map(x => x.toLowerCase());
           if (errors.filter(x => x.indexOf('funds') >= 0).length >= 1) {
-            this.router.navigateByUrl('s/app/purchase', {state: {redirect: this.router.url}});
+            this.router.navigateByUrl('s/ap/purchase', {state: {redirect: this.router.url}});
           }
         } else {
           this.state$.next('success');

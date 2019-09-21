@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { UserModel, ProfileModel } from './models';
+import { UserModel, ProfileModel, StandModel } from './models';
 import { share, tap } from 'rxjs/operators';
 
 @Injectable({
@@ -64,5 +64,13 @@ export class AccountService {
   deleteStandBackground() {
     const url = `${environment.apiUrl}account/stand-pic`;
     return this.http.delete(url);
+  }
+
+  getStand(username: string) {
+    const url = `${environment.apiUrl}stand`;
+    const params = new HttpParams().set('username', username);
+    return this.http.get<StandModel>(url, {params}).pipe(
+      share()
+    );
   }
 }

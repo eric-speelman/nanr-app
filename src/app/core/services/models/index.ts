@@ -7,3 +7,4 @@ export * from './TagResponseModel';
 export * from './click-response-model';
 export * from './home-summary-model';
 export * from './profile-model';
+export * from './stand-model';
