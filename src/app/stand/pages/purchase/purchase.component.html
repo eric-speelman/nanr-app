@@ -1,8 +1,9 @@
 <div class="page-container">
-  <div fxLayout="row" fxLayoutAlign="center center">
+  <div fxLayout="row" fxLayoutAlign="center center" class="pay-container">
     <div fxFlex="600px">
-      <h1>Oh No!!!</h1>
-      <h2>You dont' have any Nanrs</h2>
+      <div fxLayout="row" fxLayoutAlign="center center">
+        <h1>Add some Nanrs to your stash!</h1>
+      </div>
       <nanr-add-nanrs (purchased)="purchased()"></nanr-add-nanrs>
     </div>
   </div>

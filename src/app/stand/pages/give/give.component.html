@@ -1,13 +1,20 @@
-<div class="give-container" *ngIf="profile$ | async as profile"  [ngClass]="{'light': !profile.darkText, 'dark': profile.darkText}" [ngStyle]="{backgroundColor: profile.backgroundColor}" [style.background-image]="getBackground(profile.id)">
-  <div fxLayout="row" fxLayoutAlign="center center" class="full-height">
-    <div *ngIf="username$ | async as username" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="8px">
-      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
-        <nanr-profile-pic [username]="profile.id"></nanr-profile-pic>
-        <h1>{{username}}'s Nanr Stand</h1>
+<div class="full-height" *ngIf="profile$ | async as profile">
+  <mat-toolbar color="primary">
+    <a href="https://nanr.io"><img src="/assets/img/logos/logo-white.png" /></a>
+    <span class="spacer"></span>
+    <span [matBadge]="profile.balance" matBadgeColor="accent" [matBadgeOverlap]="true" class="nanr-icon" (click)="get()" id="nanr-cnt-container"><img src="/assets/img/button-imgs/banana.svg" width="60" height="40" id="nanr-cnt" /></span>
+  </mat-toolbar>
+  <div class="give-container" [ngClass]="{'light': !profile.darkText, 'dark': profile.darkText}" [ngStyle]="{backgroundColor: profile.backgroundColor}" [style.background-image]="getBackground(profile.id)">
+    <div fxLayout="row" fxLayoutAlign="center center" class="full-height">
+      <div *ngIf="username$ | async as username" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="8px">
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
+          <nanr-profile-pic [username]="profile.id"></nanr-profile-pic>
+          <h1>{{username}}'s Nanr Stand</h1>
+        </div>
+        <h3 *ngIf="profile.tagline">{{profile.tagline}}</h3>
+        <iframe *ngIf="buttonUrl$ | async as buttonUrl" scrolling="no" frameborder=0 [src]="buttonUrl" width="300" height="300"></iframe>
+        <div *ngIf="profile.bio" fxFlex="1 1 auto">{{profile.bio}}</div>
       </div>
-      <h3 *ngIf="profile.tagline">{{profile.tagline}}</h3>
-      <iframe *ngIf="buttonUrl$ | async as buttonUrl" scrolling="no" frameborder=0 [src]="buttonUrl" width="300" height="300"></iframe>
-      <div *ngIf="profile.bio" fxFlex="1 1 auto">{{profile.bio}}</div>
     </div>
   </div>
 </div>

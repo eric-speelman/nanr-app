@@ -6,4 +6,5 @@ export class ProfileModel {
   bio: string;
   backgroundColor: string;
   darkText: boolean;
+  balance: number;
 }
