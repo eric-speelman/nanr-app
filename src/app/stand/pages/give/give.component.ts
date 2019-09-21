@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { AccountService, ClickService, StandModel, UserModel } from 'src/app/core';
+import { AccountService, ClickService, StandModel, UserModel, NanrCountService } from 'src/app/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Observable, BehaviorSubject, Subject } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
@@ -16,11 +16,11 @@ export class GiveComponent implements OnInit {
   username$: Observable<string>;
   stand$: Observable<StandModel>;
   state$ = new BehaviorSubject('default');
-  me$: Observable<UserModel>;
+  nanrs$: Observable<number>;
   buttonUrl$ = new BehaviorSubject<SafeResourceUrl>(undefined);
   constructor(private sanitizer: DomSanitizer, private router: Router,
               private route: ActivatedRoute, private clickService: ClickService,
-              private accountService: AccountService) { }
+              private accountService: AccountService, private nanrCount: NanrCountService) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
@@ -33,10 +33,7 @@ export class GiveComponent implements OnInit {
           this.sanitizer.bypassSecurityTrustResourceUrl(`${environment.buttonUrl}?tagId=${username}&page=${window.location.href}`));
         return username;
       });
-    const session = window.localStorage.getItem('session');
-    if (session) {
-      this.me$ = this.accountService.get();
-    }
+    this.nanrs$ = this.nanrCount.getCount();
     const me = this;
     window.addEventListener('message', message => {
       me.handleMessage(message, me);
@@ -78,11 +75,13 @@ export class GiveComponent implements OnInit {
         return;
       }
       if (msgObj) {
-          if (msgObj && msgObj.type === 'showLogin') {
-            me.router.navigateByUrl('account/signup', {state: {redirect: this.router.url}});
-          } else if (msgObj.type === 'addFunds') {
-            me.router.navigateByUrl('s/ap/purchase', {state: {redirect: this.router.url}});
-          }
+        if (msgObj && msgObj.type === 'showLogin') {
+          me.router.navigateByUrl('account/signup', {state: {redirect: this.router.url}});
+        } else if (msgObj.type === 'addFunds') {
+          me.router.navigateByUrl('s/ap/purchase', {state: {redirect: this.router.url}});
+        } else if(msgObj.type === 'nanr') {
+          me.nanrCount.minus();
+        }
       }
     }
   }

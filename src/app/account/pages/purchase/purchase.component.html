@@ -1,8 +1,9 @@
 <nanr-app-frame selected="nanrs">
   <div fxLayout="row" fxLayoutAlign="center center" class="full-height">
-    <div fxLayout="column">
+    <div fxLayout="column" *ngIf="!(purchased$ | async) else thankyou">
       <h2 fxShow fxShow.xs="false">Add some Nanrs to your stash!</h2>
       <nanr-add-nanrs (purchased)="purchased()"></nanr-add-nanrs>
     </div>
+    <ng-template #thankyou><h2>Thank you for your purchase. The Nanrs have been added to your account.</h2></ng-template>
   </div>
 </nanr-app-frame>

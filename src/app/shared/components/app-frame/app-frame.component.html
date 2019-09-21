@@ -5,7 +5,7 @@
     </button>
     <span><img src="/assets/img/logos/logo-white.png" /></span>
     <span class="fill"></span>
-    <span matBadge="{{(user$ | async)?.balance}}" matBadgeColor="accent" [matBadgeOverlap]="true" class="nanr-icon" (click)="get()" id="nanr-cnt-container"><img src="/assets/img/button-imgs/banana.svg" width="60" height="40" id="nanr-cnt" /></span>
+    <span [matBadge]="nanrs$ | async" matBadgeColor="accent" [matBadgeOverlap]="true" class="nanr-icon" (click)="get()" id="nanr-cnt-container"><img src="/assets/img/button-imgs/banana.svg" width="60" height="40" id="nanr-cnt" /></span>
   </mat-toolbar>
   <div class="content">
     <mat-sidenav-container class="full-height">

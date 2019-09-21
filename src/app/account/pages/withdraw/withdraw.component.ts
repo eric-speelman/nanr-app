@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, ViewChild, ElementRef } from '@angular/core';
-import { AccountService, UserModel } from 'src/app/core';
+import { AccountService, UserModel, NanrCountService } from 'src/app/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 
 @Component({
@@ -17,7 +17,7 @@ export class WithdrawComponent implements OnInit {
   emailError$ = new BehaviorSubject(false);
   success$ = new BehaviorSubject(false);
   amount = 0;
-  constructor(private accountService: AccountService) {
+  constructor(private accountService: AccountService, private nanrCount: NanrCountService) {
     this.account$ = this.accountService.get();
   }
 
@@ -45,18 +45,15 @@ export class WithdrawComponent implements OnInit {
         if (res.error) {
           this.error$.next(res.error);
         } else {
+          this.nanrCount.minus(this.amount);
           this.success$.next(true);
         }
       });
     }
   }
 
-  setEmail($event) {
-    console.log($event);
-  }
-
   private setString(value: number) {
-    this.amountString$.next(`Withdraw ${value} Nanrs for $${((value - 1) * .2).toFixed(2)}`);
+    this.amountString$.next(`Withdraw ${value} Nanrs for $${((value - 1) * .17).toFixed(2)}`);
   }
 
 

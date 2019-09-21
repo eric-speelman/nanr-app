@@ -5,6 +5,7 @@ export class SignupResponseModel {
   errors: {
     email: string;
     username: string;
+    referrer: string;
   };
   session: SessionModel;
 }

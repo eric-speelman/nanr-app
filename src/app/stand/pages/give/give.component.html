@@ -2,7 +2,7 @@
   <mat-toolbar color="primary">
     <a href="https://nanr.io"><img src="/assets/img/logos/logo-white.png" /></a>
     <span class="spacer"></span>
-    <span *ngIf="me$ | async as me" [matBadge]="me.balance" matBadgeColor="accent" [matBadgeOverlap]="true" class="nanr-icon" (click)="get()" id="nanr-cnt-container"><img src="/assets/img/button-imgs/banana.svg" width="60" height="40" id="nanr-cnt" /></span>
+    <span *ngIf="nanrs$ | async as nanrs" [matBadge]="nanrs" matBadgeColor="accent" [matBadgeOverlap]="true" class="nanr-icon" (click)="get()" id="nanr-cnt-container"><img src="/assets/img/button-imgs/banana.svg" width="60" height="40" id="nanr-cnt" /></span>
   </mat-toolbar>
   <div class="give-container" [ngClass]="{'light': !stand.darkText, 'dark': stand.darkText}" [ngStyle]="{backgroundColor: stand.backgroundColor}" [style.background-image]="getBackground(stand.id)">
     <div fxLayout="row" fxLayoutAlign="center center" class="full-height">

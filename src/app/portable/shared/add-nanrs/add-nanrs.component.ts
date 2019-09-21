@@ -1,7 +1,8 @@
 import { Component, ChangeDetectionStrategy, AfterViewInit, Output, EventEmitter } from '@angular/core';
-import { PurchaseService } from 'src/app/core';
+import { PurchaseService, AccountService, UserModel, NanrCountService } from 'src/app/core';
 import { FormBuilder } from '@angular/forms';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 declare var SqPaymentForm;
 
@@ -14,15 +15,35 @@ declare var SqPaymentForm;
 export class AddNanrsComponent implements AfterViewInit {
   @Output() purchased = new EventEmitter();
   paymentForm: any;
+  user: UserModel;
+  nanrAmount: number;
   selected$ = new BehaviorSubject('bushel');
   loading$ = new BehaviorSubject(false);
   error$ = new BehaviorSubject(false);
   built$ = new BehaviorSubject(false);
+  useSaved$ = new BehaviorSubject(false);
+  me$: Observable<UserModel>;
   billingForm = this.fb.group({
+    useSaved: [true],
+    saveBilling: [false],
+    rebill: [false]
   });
-  constructor(private purchaseService: PurchaseService, private fb: FormBuilder) {
+  constructor(private purchaseService: PurchaseService, private fb: FormBuilder,
+              private accountService: AccountService, private nanrCount: NanrCountService) {
+    this.me$ = this.accountService.get().pipe(
+      tap(user => {
+        this.billingForm.controls.rebill.setValue(user.refill);
+      })
+    );
+    this.billingForm.controls.useSaved.valueChanges.subscribe(value => {
+      if (!value) {
+        this.billingForm.controls.rebill.setValue(false);
+        this.billingForm.controls.saveBilling.setValue(false);
+      }
+    });
   }
   ngAfterViewInit() {
+
     if (typeof SqPaymentForm === 'undefined') {
       setTimeout(this.ngAfterViewInit, 100);
       return;
@@ -66,9 +87,12 @@ export class AddNanrsComponent implements AfterViewInit {
               this.loading$.next(false);
               return;
           }
-          this.purchaseService.purchase({amount: this.selected$.value, token: nonce}).subscribe(res => {
+          this.purchaseService.purchase({amount: this.selected$.value,
+            token: nonce,
+            saveBilling: this.billingForm.controls.saveBilling.value}).subscribe(res => {
             this.loading$.next(false);
             if (res.success) {
+              this.nanrCount.add(res.nanrs);
               this.purchased.next();
             } else {
               this.error$.next(true);
@@ -81,10 +105,24 @@ export class AddNanrsComponent implements AfterViewInit {
     this.built$.next(true);
   }
 
-  onGetCardNonce(event) {
-    this.loading$.next(true);
-    this.error$.next(false);
-    this.paymentForm.requestCardNonce();
+  onGetCardNonce(event, me: UserModel) {
+    if (this.billingForm.controls.useSaved && me.hasBilling) {
+      this.loading$.next(true);
+      this.purchaseService.purchase({amount: this.selected$.value, useSaved: true,
+        refill: this.billingForm.controls.rebill.value}).subscribe(res => {
+        this.loading$.next(false);
+        if (res.success) {
+          this.nanrCount.add(res.nanrs);
+          this.purchased.next();
+        } else {
+          this.error$.next(true);
+        }
+      });
+    } else {
+      this.loading$.next(true);
+      this.error$.next(false);
+      this.paymentForm.requestCardNonce();
+    }
   }
 
   select(type: string) {
