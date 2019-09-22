@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
-
+declare var ga;
 @Component({
   selector: 'nanr-signup',
   templateUrl: './signup.component.html',
@@ -11,6 +11,7 @@ export class SignupComponent {
   redirect: string;
   constructor(private router: Router) {
     this.redirect = window.history.state.redirect;
+    ga('send', 'event', 'PDF', 'Download', 'Company Brochure – PDF Download');
   }
 
   signedup() {

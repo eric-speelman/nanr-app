@@ -1,0 +1,46 @@
+<html>
+    <head></head>
+    <body>
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+    const cid = getUrlParameter('cid');
+    const ref = getUrlParameter('ref');
+    let campaigns = JSON.parse(window.localStorage.getItem('cid'));
+    if (cid) {
+        if (!campaigns) {
+            campaigns = [];
+        }
+        campaigns.push({
+            cid,
+            timestamp: Date.now()
+        });
+        window.localStorage.setItem('cid', JSON.stringify(campaigns));
+    }
+    if (ref) {
+        window.localStorage.setItem('ref', ref);
+    }
+    function handleMessage(message) {
+        const msgObj = JSON.parse(message);
+        if (msgObj) {
+            if (msgObj.type === 'set') {
+                window.localStorage.setItem(msgObj.key, msgObj.value);
+            } else if (msgObj.type === 'get') {
+                window.parent.postMessage(JSON.stringify({
+                    type: 'getResponse',
+                    key: msgObj.key,
+                    value: window.localStorage.getItem(msgObj.key)
+                }), '*');
+            }
+        }
+    }
+    window.addEventListener('message', handleMessage, false);
+    function getUrlParameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(window.parent.location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    }
+})
+</script>
+    </body>
+</html>
