@@ -25,7 +25,6 @@
             <mat-slide-toggle formControlName="useSaved" *ngIf="me.hasBilling">Used Saved Billing</mat-slide-toggle>
             <mat-checkbox formControlName="saveBilling" *ngIf="!me.hasBilling || !billingForm.controls.useSaved.value">Save Billing Info</mat-checkbox>
             <mat-checkbox formControlName="rebill" >Automatic Refill
-
             </mat-checkbox>
           </div>
         </form>

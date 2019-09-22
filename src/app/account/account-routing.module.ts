@@ -10,6 +10,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { ContactComponent } from './pages/contact/contact.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { PasswordResetComponent } from './pages/password-reset/password-reset.component';
+import { ConfirmComponent } from './pages/confirm/confirm.component';
 import { AuthGuard } from 'src/app/core';
 
 const routes: Routes = [
@@ -22,7 +23,8 @@ const routes: Routes = [
   { path: 'contact', component: ContactComponent, canActivate: [AuthGuard]},
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'reset/:token', component: PasswordResetComponent},
-  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]}
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
+  { path: 'confirm/:code',  component: ConfirmComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

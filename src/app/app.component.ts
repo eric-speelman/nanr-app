@@ -7,6 +7,6 @@ declare var ga;
 })
 export class AppComponent {
   constructor() {
-    ga('create', 'UA-148453051-1', 'auto');
+    //ga('create', 'UA-148453051-1', 'auto');
   }
 }

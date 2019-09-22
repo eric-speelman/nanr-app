@@ -2,9 +2,11 @@
   <div fxLayout="row" fxLayoutAlign="center center" class="pay-container">
     <div fxFlex="600px">
       <div fxLayout="row" fxLayoutAlign="center center">
-        <h1>Add some Nanrs to your stash!</h1>
+        <h3 class="dark">Add some Nanrs to your stash!</h3>
       </div>
-      <nanr-add-nanrs (purchased)="purchased()"></nanr-add-nanrs>
+      <div fxLayout="row" fxLayoutAlign="center center">
+        <nanr-add-nanrs (purchased)="purchased()"></nanr-add-nanrs>
+      </div>
     </div>
   </div>
 </div>

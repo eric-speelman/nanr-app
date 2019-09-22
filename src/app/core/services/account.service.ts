@@ -74,4 +74,9 @@ export class AccountService {
       share()
     );
   }
+
+  confirmEmail(code: string) {
+    const url = `${environment.apiUrl}account/confirm-email`;
+    return this.http.post<boolean>(url, {code});
+  }
 }
