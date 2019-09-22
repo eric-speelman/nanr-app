@@ -30,7 +30,8 @@ export class AccountService {
     );
   }
 
-  updateProfile(profile: {email?: string, tagline?: string, bio?: string, backgroundColor?: string, darkText?: boolean}) {
+  updateProfile(profile: {email?: string, tagline?: string, bio?: string, backgroundColor?: string, darkText?: boolean,
+                          autoRefill?: boolean}) {
     const url = `${environment.apiUrl}account/profile`;
     return this.http.post(url, profile);
   }

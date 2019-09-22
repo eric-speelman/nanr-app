@@ -7,4 +7,5 @@ export class ProfileModel {
   backgroundColor: string;
   darkText: boolean;
   balance: number;
+  autoRefill: boolean;
 }

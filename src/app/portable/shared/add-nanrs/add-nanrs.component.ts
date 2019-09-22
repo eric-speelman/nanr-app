@@ -41,6 +41,11 @@ export class AddNanrsComponent implements AfterViewInit {
         this.billingForm.controls.saveBilling.setValue(false);
       }
     });
+    this.billingForm.controls.rebill.valueChanges.subscribe(value => {
+      if (value) {
+        this.billingForm.controls.saveBilling.setValue(true);
+      }
+    });
   }
   ngAfterViewInit() {
 

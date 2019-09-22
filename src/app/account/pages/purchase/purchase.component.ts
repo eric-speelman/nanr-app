@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core';
 import { BehaviorSubject } from 'rxjs';
+declare var ga;
 @Component({
   selector: 'nanr-purchase',
   templateUrl: './purchase.component.html',
@@ -16,6 +17,7 @@ export class PurchaseComponent implements OnInit {
   }
 
   purchased() {
+    ga('send', 'event', 'nanr', 'purchase', 'app');
     this.purchased$.next(true);
   }
 

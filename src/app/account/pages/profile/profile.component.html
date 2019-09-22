@@ -102,6 +102,9 @@
       <button mat-raised-button color="primary" [disabled]="isPasswordLoading$ | async">Change Password</button>
     </form>
     <mat-divider></mat-divider>
+    <h2>Billing</h2>
+    <mat-slide-toggle [checked]="profile.autoRefill" [disabled]="!profile.autoRefill" (change)="refillChange($event)">Auto Refill</mat-slide-toggle>
+    <mat-divider></mat-divider>
     <div fxLayout="row">
       <button mat-raised-button (click)="logout()" [disabled]="logoutLoading$ | async">Logout</button>
     </div>

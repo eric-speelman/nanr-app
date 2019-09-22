@@ -35,6 +35,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     newPassword: ['', [Validators.required, Validators.minLength(7), Validators.maxLength(32)]],
     confirmPassword: ['']
   });
+
   profile: ProfileModel;
   standImage$ = new BehaviorSubject<string>(null);
   standCounter = 0;
@@ -137,6 +138,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.bioForm.controls.bio.disable();
       });
     }
+  }
+
+  refillChange($event: any) {
+    this.accountService.updateProfile({autoRefill: $event.checked}).subscribe();
   }
 
   backgroundColorChange($event: ColorEvent) {

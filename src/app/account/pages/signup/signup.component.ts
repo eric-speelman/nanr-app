@@ -11,13 +11,14 @@ export class SignupComponent {
   redirect: string;
   constructor(private router: Router) {
     this.redirect = window.history.state.redirect;
-    ga('send', 'event', 'PDF', 'Download', 'Company Brochure – PDF Download');
   }
 
   signedup() {
     if (this.redirect && this.redirect.indexOf('s/') >= 0) {
+      ga('send', 'event', 'account', 'signup', 'stand');
       this.router.navigateByUrl('s/ap/purchase', {state: {redirect: this.redirect}});
     } else {
+      ga('send', 'event', 'account', 'signup', 'app');
       this.router.navigateByUrl('', {state: {isSignup: true}});
     }
   }
