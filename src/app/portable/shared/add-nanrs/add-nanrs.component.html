@@ -1,13 +1,13 @@
-<div>
+<div *ngIf="me$ | async as me" class="add-container">
   <div fxLayout="row" fxLayoutGap="8px" fxLayoutAlign="center start" *ngIf="selected$ | async as selected">
     <nanr-add-button name="Bushel" amount="20" price="$5" img="bushel.svg" [selected]="selected === 'bushel'" (click)="select('bushel')"></nanr-add-button>
     <nanr-add-button name="Bucket" amount="50" price="$12" img="bucket.png" [selected]="selected === 'bucket'" (click)="select('bucket')"></nanr-add-button>
-    <nanr-add-button name="Mountain" amount="100" price="$22" img="mountain.png" [selected]="selected === 'mountain'" (click)="select('mountain')"></nanr-add-button>
+    <nanr-add-button name="Mountain" amount="100" price="$24" img="mountain.png" [selected]="selected === 'mountain'" (click)="select('mountain')"></nanr-add-button>
   </div>
-  <br/><br/>
+  <br/>
   <div class="error" *ngIf="error$ | async">We were unable to process your payment</div>
-  <div>
-    <div id="form-container">
+  <div fxLayout="column">
+    <div id="form-container" [ngClass]="{'hidden': me.hasBilling && billingForm.controls.useSaved.value}">
         <div id="sq-card-number"></div>
         <div class="third">
           <div id="sq-expiration-date"></div>
@@ -19,7 +19,17 @@
           <div id="sq-postal-code"></div>
         </div>
       </div>
-      <button mat-raised-button color="accent" (click)="onGetCardNonce($event)" class="full-width" [disabled]="loading$ | async">Get Nanrs!</button>
+      <div>
+        <form [formGroup]="billingForm">
+          <div fxLayout="column">
+            <mat-slide-toggle formControlName="useSaved" *ngIf="me.hasBilling">Used Saved Billing</mat-slide-toggle>
+            <mat-checkbox formControlName="saveBilling" *ngIf="!me.hasBilling || !billingForm.controls.useSaved.value">Save Billing Info</mat-checkbox>
+            <mat-checkbox formControlName="rebill" >Automatic Refill
+            </mat-checkbox>
+          </div>
+        </form>
+      </div>
+      <button mat-raised-button color="accent" (click)="onGetCardNonce($event, me)" class="full-width" [disabled]="loading$ | async">Get Nanrs!</button>
       <div class="error" *ngIf="error$ | async">An error has occured while processing the transaction</div>
   </div>
 </div>

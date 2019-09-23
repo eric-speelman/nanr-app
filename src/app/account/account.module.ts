@@ -9,14 +9,38 @@ import { LoginComponent } from './pages/login/login.component';
 import { WithdrawComponent } from './pages/withdraw/withdraw.component';
 import { TransactionsComponent } from './pages/transactions/transactions.component';
 import { IntegrateComponent } from './pages/integrate/integrate.component';
+import { HomeComponent } from './pages/home/home.component';
+import { ContactComponent } from './pages/contact/contact.component';
+import { PasswordResetComponent } from './pages/password-reset/password-reset.component';
+import { WelcomeDialogComponent } from './pages/home/welcome-dialog/welcome-dialog.component';
+import { ProfileComponent } from './pages/profile/profile.component';
+import { ColorChromeModule } from 'ngx-color/chrome';
+import { MatRadioModule } from '@angular/material/radio';
+import { ConfirmComponent } from './pages/confirm/confirm.component';
 
 @NgModule({
-  declarations: [SignupComponent, PurchaseComponent, LoginComponent, WithdrawComponent, TransactionsComponent, IntegrateComponent],
+  declarations: [
+    SignupComponent,
+    PurchaseComponent,
+    LoginComponent,
+    WithdrawComponent,
+    TransactionsComponent,
+    IntegrateComponent,
+    HomeComponent,
+    ContactComponent,
+    PasswordResetComponent,
+    WelcomeDialogComponent,
+    ProfileComponent,
+    ConfirmComponent
+  ],
   imports: [
     CommonModule,
     AccountRoutingModule,
     SharedModule,
-    PortableModule
-  ]
+    PortableModule,
+    ColorChromeModule,
+    MatRadioModule
+  ],
+  entryComponents: [WelcomeDialogComponent]
 })
 export class AccountModule { }

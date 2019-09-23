@@ -5,7 +5,9 @@ import { GiveComponent } from './pages/give/give.component';
 import { PurchaseComponent } from './pages/purchase/purchase.component';
 import { PortableModule } from 'src/app/portable/portable.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
-
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatBadgeModule } from '@angular/material/badge';
 
 @NgModule({
   declarations: [GiveComponent, PurchaseComponent],
@@ -13,7 +15,10 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     CommonModule,
     StandRoutingModule,
     PortableModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatBadgeModule
   ]
 })
 export class StandModule { }

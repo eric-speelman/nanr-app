@@ -1,13 +1,22 @@
-<div class="give-container">
-  <div fxLayout="row" fxLayoutAlign="center center" class="full-height">
-    <div *ngIf="username$ | async as username">
-      <h1>{{username}}'s Nanr Stand</h1>
-      <div class="nanr-container" (click)="send()" *ngIf="state$ | async as state">
-        <img src='/assets/img/button-icons/banana.svg' width="200" height="200" *ngIf="state === 'default'"/>
-        <img src='/assets/img/button-icons/banana-peeling.svg' width="200" height="200" *ngIf="state === 'loading'"/>
-        <img src='/assets/img/button-icons/monkey.svg' width="200" height="200" *ngIf="state === 'success'"/>
+<div class="full-height" *ngIf="stand$ | async as stand">
+  <mat-toolbar color="primary">
+    <a href="https://nanr.io"><img src="/assets/img/logos/logo-white.png" /></a>
+    <span class="spacer"></span>
+    <span *ngIf="nanrs$ | async as nanrs" [matBadge]="nanrs.value" matBadgeColor="accent" [matBadgeOverlap]="true" class="nanr-icon" (click)="get()" id="nanr-cnt-container"><img src="/assets/img/button-imgs/banana.svg" width="60" height="40" id="nanr-cnt" /></span>
+  </mat-toolbar>
+  <div class="give-container" [ngClass]="{'light': !stand.darkText, 'dark': stand.darkText}" [ngStyle]="{backgroundColor: stand.backgroundColor}" [style.background-image]="getBackground(stand.id)">
+    <div fxLayout="row" fxLayoutAlign="center center" class="full-height">
+      <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="8px">
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
+          <nanr-profile-pic [username]="stand.id"></nanr-profile-pic>
+          <h1 fxShow fxShow.xs="false">{{stand.username}}'s Nanr Stand</h1>
+          <h2 fxHide fxHide.xs="false">{{stand.username}}'s Nanr Stand</h2>
+        </div>
+        <h3 *ngIf="stand.tagline" fxShow fxShow.xs="false">{{stand.tagline}}</h3>
+        <h4 *ngIf="stand.tagline" fxHide fxHide.xs="false">{{stand.tagline}}</h4>
+        <iframe *ngIf="buttonUrl$ | async as buttonUrl" scrolling="no" frameborder=0 [src]="buttonUrl" [width]="size" [height]="size"></iframe>
+        <div *ngIf="stand.bio" fxFlex="1 1 auto">{{stand.bio}}</div>
       </div>
-      <div>Click the banana to give {{username}} a Nanr</div>
     </div>
   </div>
 </div>

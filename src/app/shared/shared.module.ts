@@ -12,9 +12,15 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+
 
 @NgModule({
-  declarations: [AppFrameComponent],
+  declarations: [AppFrameComponent ],
   imports: [
     CommonModule,
     MatCardModule,
@@ -27,7 +33,12 @@ import { MatDividerModule } from '@angular/material/divider';
     MatSidenavModule,
     MatSliderModule,
     MatTabsModule,
-    MatDividerModule
+    MatDividerModule,
+    MatBadgeModule,
+    MatIconModule,
+    MatDialogModule,
+    MatProgressSpinnerModule,
+    MatSlideToggleModule
   ],
   exports: [
     MatCardModule,
@@ -41,7 +52,12 @@ import { MatDividerModule } from '@angular/material/divider';
     MatSidenavModule,
     MatSliderModule,
     MatTabsModule,
-    MatDividerModule
+    MatDividerModule,
+    MatBadgeModule,
+    MatIconModule,
+    MatDialogModule,
+    MatProgressSpinnerModule,
+    MatSlideToggleModule
   ]
 })
 export class SharedModule { }

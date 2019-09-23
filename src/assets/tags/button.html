@@ -1,90 +1,228 @@
 <html>
-<head></head>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
 <body>
     <div id="tag">
-        <img src="/assets/img/button-icons/banana.svg" width="60" height="40" id="default-img" />
-        <img src="/assets/img/button-icons/banana-peeling.svg" width="60" height="40" class="hidden" id="loading-img" />
-        <img src="/assets/img/button-icons/monkey.svg" width="60" height="40" class="hidden" id="success-img" />
+        <img src="/assets/img/button-imgs/banana.svg" id="default-img" class="button-img" />
+        <img src="/assets/img/button-imgs/banana-peeling.svg" class="hidden button-img" id="loading-img" />
+        <img src="/assets/img/button-imgs/monkey.svg" class="hidden button-img" id="success-img" />
+        <img src="/assets/img/button-imgs/heart.svg" class="hidden button-img" id="complete-img" />
     </div>
 
     <style>
-        body {
-            margin: 0px;
-        }
-        #tag {
-            cursor: pointer;
-            height: 40px;
-            width: 60px;
-            background-color: #fff;
-            margin: 0px;
-            padding: 0px;
-        }
+      html {
+        box-sizing: border-box;
+      }
+      *, *:before, *:after {
+        box-sizing: inherit;
+      }
+      body {
+          margin: 0px;
+          width: 100%;
+          height: 100%;
+      }
+      #tag {
+          cursor: pointer;
+          background-color: #3f51b5;
+          margin: 0px;
+          border: 2px solid #ff4081;
+          width: 100%;
+          height: 100%;
+          padding: 10%;
+      }
 
-        #tag:hover {
-            background-color: #ddd;
-        }
+      .button-img {
+        width: 100%;
+        height: 100%;
+      }
 
-        .hidden {
-            display: none;
-        }
+      #tag:hover {
+          background-color:  #6a76bb;
+      }
+
+      .hidden {
+          display: none;
+      }
+
+      #default-img:hover {
+        transform: rotate(360deg);
+        transition: 0.70s;
+      }
+
+      .rotate-left {
+        transform: rotate(20deg);
+      }
+
+      .rotate-right {
+        transform: rotate(-20deg);
+      }
     </style>
 
     <script>
         let tagId = getUrlParameter('tagId');
-        let page = getUrlParameter('page');
+        let demo = getUrlParameter('demo');
+        demo = demo && demo.toLocaleLowerCase() === 'true';
+        let page = null;
+        let referrer = null;
+        let tag = document.getElementById('tag');
+        let defaultImage = document.getElementById('default-img');
+        let loadingImage = document.getElementById('loading-img');
+        let successImage = document.getElementById('success-img');
+        let completeImage = document.getElementById('complete-img');
+        let images = [defaultImage, loadingImage, successImage, completeImage];
+        let viewId = uuidv4();
+        let pageId = null;
+        let nanrCnt = null;
         document.getElementById('tag').onclick = () => {
+            let sessionId = getSessionId();
             if (!tagId) {
                 jsError('Tag id not found');
             }
-            var sessionId = window.localStorage.getItem('session');
             if (!sessionId) {
                 login();
                 return;
             }
-            document.getElementById('default-img').classList.add('hidden');
-            document.getElementById('loading-img').classList.remove('hidden');
-            fetch('http://localhost:5000/api/click', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'bearer ' + sessionId
-                },
-                body: JSON.stringify({ tagId, page })
-            })
-            .then(response => {
-              if(response.status === 401) {
-                login();
-                throw 'Unauthorized';
-              }
-              return response;
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    document.getElementById('loading-img').classList.add('hidden');
-                    document.getElementById('success-img').classList.remove('hidden');
-                    setTimeout(() => {
-                        document.getElementById('success-img').classList.add('hidden');
-                        document.getElementById('default-img').classList.remove('hidden');
-                    }, 2000)
-                } else {
-                    if (!data.errors || data.errors.length === 0) {
-                        jsError('Unexpcted error response');
-                    }
-                    data.errors = data.errors.map(err => err.toLowerCase());
-                    if (data.errors.filter(err => err.indexOf('session') >= 0).length > 0) {
-                      login();
-                    } else if (data.errors.filter(err => err.indexOf('funds') >= 0).length > 0) {
-                      addFunds();
-                    }
+            hideAll();
+            loadingImage.classList.remove('hidden');
+            if (!demo) {
+              fetch('http://localhost:5000/api/click', {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json',
+                      'Authorization': 'bearer ' + sessionId
+                  },
+                  body: JSON.stringify({ tagId, pageId, viewId, page, referrer })
+              })
+              .then(response => {
+                if(response.status === 401) {
+                  login();
+                  throw 'Unauthorized';
                 }
+                return response;
+              })
+              .then(response => response.json())
+              .then(data => {
+                  if (data.success) {
+                    animateButton();
+                    if (!nanrCnt) {
+                      nanrCnt = {}
+                    }
+                    nanrCnt.type = 'nanr';
+                    nanrCnt.hasUser = true;
+                    nanrCnt.pageNanrCount = parseInt(data.pageNanrCount) || null;
+                    nanrCnt.totalNanrCount = parseInt(data.totalNanrCount) || null;
+                    nanrCnt.pageId = pageId
+                    window.parent.postMessage(JSON.stringify(nanrCnt), '*');
+                    window.parent.postMessage(JSON.stringify({type: 'balance', balance: data.balance}), '*');
+                  } else {
+                      if (!data.errors || data.errors.length === 0) {
+                          jsError('Unexpcted error response');
+                      }
+                      data.errors = data.errors.map(err => err.toLowerCase());
+                      if (data.errors.filter(err => err.indexOf('session') >= 0).length > 0) {
+                        login();
+                      } else if (data.errors.filter(err => err.indexOf('funds') >= 0).length > 0) {
+                        addFunds();
+                      }
+                  }
                 });
+            } else {
+              setTimeout(animateButton, 500);
+            }
         };
+        let timeouts = [];
+        function animateButton() {
+          timeouts.forEach(x => clearTimeout(x));
+          timeouts = [];
+          hideAll();
+          successImage.classList.remove('hidden');
+          successImage.classList.remove('rotate-right');
+          successImage.classList.add('rotate-left');
+          timeouts.push(setTimeout(() => {
+              hideAll();
+              successImage.classList.remove('hidden');
+              successImage.classList.remove('rotate-left');
+              successImage.classList.add('rotate-right');
+              timeouts.push(setTimeout(() => {
+                hideAll();
+                successImage.classList.remove('hidden');
+                successImage.classList.remove('rotate-right');
+                successImage.classList.add('rotate-left');
+                timeouts.push(setTimeout(() => {
+                  hideAll();
+                  successImage.classList.remove('hidden');
+                  successImage.classList.remove('rotate-left');
+                  successImage.classList.add('rotate-right');
+                  timeouts.push(setTimeout(() => {
+                    hideAll();
+                    completeImage.classList.remove('hidden');
+                    timeouts.push(setTimeout(() => {
+                      hideAll();
+                      defaultImage.classList.remove('hidden');
+                    }, 700));
+                  }, 300));
+                }, 300));
+              }, 300));
+          }, 300));
+        }
+
+        function handleMessage(message) {
+          var msgObj = JSON.parse(message.data);
+          if (msgObj && !demo) {
+            if (msgObj.type === 'init') {
+              pageId = msgObj.pageId || null;
+              page = msgObj.page || null;
+              referrer = msgObj.referrer || null;
+              view();
+            }else if(msgObj.type == "checkSession") {
+              let sessionId = getSessionId();
+              if (sessionId && !nanrCnt.hasUser) {
+                view();
+              }
+            } else if(msgObj.type == 'tag') {
+              tagId = msgObj.tagId;
+              pageId = msgObj.pageId;
+              page = msgObj.page;
+              referrer = msgObj.referrer;
+              view();
+            }
+          }
+        }
+
+        function view() {
+          fetch('http://localhost:5000/api/tags/view', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ tagId, page, referrer, pageId, page, sessionId: getSessionId(), viewId })
+          })
+          .then(res => res.json())
+          .then(view => {
+            nanrCnt = view;
+            nanrCnt.pageNanrCount = parseInt(nanrCnt.pageNanrCount);
+            nanrCnt.totalNanrCount = parseInt(nanrCnt.totalNanrCount);
+            if(!nanrCnt.pageNanrCount && nanrCnt.pageNanrCount !== 0) {
+              nanrCnt.pageNanrCount = null;
+            }
+            if(!nanrCnt.totalNanrCount && nanrCnt.totalNanrCount !== 0) {
+              nanrCnt.totalNanrCount = null;
+            }
+            view.type = 'nanr';
+            view.pageId = pageId;
+            window.parent.postMessage(JSON.stringify(view), '*');
+          });
+        }
 
         function jsError(err) {
             console.log(err);
         }
-
+        function hideAll() {
+          images.forEach(x => {
+            x.classList.add('hidden');
+          });
+        }
         function login() {
           window.localStorage.setItem('session', null);
           var msg = {
@@ -112,6 +250,22 @@
           var results = regex.exec(location.search);
           return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
         }
+
+        function getSessionId() {
+          let sessionId = window.localStorage.getItem('session');
+          if (sessionId === 'null') {
+            sessionId = null;
+          }
+          return sessionId;
+        }
+
+        function uuidv4() {
+          return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+            (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+          )
+        }
+        window.addEventListener('message', handleMessage, false);
+        window.parent.postMessage(JSON.stringify({type: 'ready', tagId}), '*');
     </script>
 </body>
 </html>

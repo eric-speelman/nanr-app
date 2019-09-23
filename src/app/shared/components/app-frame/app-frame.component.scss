@@ -1,7 +1,7 @@
 @import 'src/styles.scss';
 
 .app-container {
-  height: 100%;
+  height: 100vh;
 }
 
 .content {
@@ -13,12 +13,15 @@
 }
 
 .main-content {
+  margin-top: 8px;
   padding: 8px;
+  height: 100%;
 }
 
 .menu-container {
   background-color: mat-color($nanr-primary);
   width: 200px;
+  color: #fff;
 }
 
 .menu-button {
@@ -33,4 +36,15 @@
 
 .menu-button:hover {
   background-color: mat-color($nanr-primary, 200);
+}
+
+#nanr-cnt {
+  margin-top: -8px;
+  margin-right: -10px;
+}
+
+#nanr-cnt-container {
+  margin-right: 28px;
+  margin-top: 14px;
+  cursor: pointer;
 }

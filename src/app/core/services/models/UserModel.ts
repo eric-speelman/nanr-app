@@ -3,4 +3,6 @@ export class UserModel {
   username: string;
   email: string;
   balance: number;
+  hasBilling: boolean;
+  refill: boolean;
 }

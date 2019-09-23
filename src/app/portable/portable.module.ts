@@ -17,7 +17,8 @@ import { PortableFrameComponent } from './shared/portable-frame/portable-frame.c
 import { SignupFormComponent } from './shared/signup-form/signup-form.component';
 import { LoginFormComponent } from './shared/login-form/login-form.component';
 import { AddNanrsComponent } from './shared/add-nanrs/add-nanrs.component';
-import { AuthInterceptor } from 'src/app/core';
+import { ProfilePicComponent } from './shared/profile-pic/profile-pic.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { AuthInterceptor } from 'src/app/core';
     PortableFrameComponent,
     SignupFormComponent,
     LoginFormComponent,
-    AddNanrsComponent
+    AddNanrsComponent,
+    ProfilePicComponent,
   ],
   imports: [
     CommonModule,
@@ -41,9 +43,10 @@ import { AuthInterceptor } from 'src/app/core';
     MatIconModule,
     MatInputModule,
     MatFormFieldModule,
-    MatCardModule
+    MatCardModule,
+    MatSlideToggleModule
   ],
-  exports: [SignupFormComponent, LoginFormComponent, AddNanrsComponent]
+  exports: [SignupFormComponent, LoginFormComponent, AddNanrsComponent, ProfilePicComponent]
 })
 export class PortableModule {
   constructor() {

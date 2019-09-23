@@ -30,7 +30,7 @@ $nanr-theme: mat-light-theme($nanr-primary, $nanr-accent, $nanr-warn);
 html {
   box-sizing: border-box;
 }
-html, body { height: 100%; padding: 0px}
+html, body { min-height: 100vh; padding: 0px; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 *, *:before, *:after {
   box-sizing: inherit;
@@ -46,4 +46,31 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .error {
   color: mat-color($nanr-warn);
+}
+
+.dark {
+  color: #fff;
+}
+
+a:link {
+  color: #0356fc;
+  text-decoration: none;
+}
+
+/* visited link */
+a:visited {
+  color: #0356fc;
+  text-decoration: none;
+}
+
+/* mouse over link */
+a:hover {
+  color: #0356fc;
+  text-decoration: underline;
+}
+
+/* selected link */
+a:active {
+  color: mat-color($nanr-accent);
+  text-decoration: none;
 }

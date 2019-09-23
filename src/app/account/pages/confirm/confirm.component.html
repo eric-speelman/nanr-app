@@ -1,0 +1,6 @@
+<nanr-app-frame [loading]="loading$ | async">
+  <h2 *ngIf="success$ | async else error">Your email has been confirmed</h2>
+  <ng-template #error>
+    <h2>We were unable to confirm your email</h2>
+  </ng-template>
+</nanr-app-frame>

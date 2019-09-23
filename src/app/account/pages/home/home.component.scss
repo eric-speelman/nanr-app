@@ -1,0 +1,34 @@
+@import 'src/styles.scss';
+
+
+.cell-container {
+  height: 304px;
+  margin-right: 8px;
+}
+
+.stash-container {
+  padding: 30px;
+  background-color: mat-color($nanr-accent, 100);
+  border-radius: 8px;
+  margin-top: 8px;
+}
+
+.stash-container img{
+  width: 60px;
+  height: 60px;
+}
+
+.stash-container h1 {
+  font-size: 64px;
+  padding: 0px;
+  margin: 0px;
+}
+
+.page-container {
+  min-height: 100%;
+  padding-bottom: 8px;
+}
+
+.right {
+  padding-bottom: 42px !important;
+}

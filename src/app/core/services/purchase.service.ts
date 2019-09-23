@@ -9,12 +9,8 @@ import { PurchaseResponseModel } from './models';
 export class PurchaseService {
   constructor(private http: HttpClient) { }
 
-  purchase(purchase: {amount: string, token: string}) {
+  purchase(purchase: {amount: string, token?: string, saveBilling?: boolean, useSaved?: boolean, refill?: boolean}) {
     const url = `${environment.apiUrl}purchase`;
     return this.http.post<PurchaseResponseModel>(url, purchase);
-  }
-
-  withdraw(amount: number) {
-    const url = `${environment.apiUrl}withdraw`;
   }
 }

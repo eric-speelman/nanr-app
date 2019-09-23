@@ -5,7 +5,7 @@ import { PurchaseComponent } from './pages/purchase/purchase.component'
 
 
 const routes: Routes = [
-  {path: 'app/purchase', component: PurchaseComponent },
+  {path: 'ap/purchase', component: PurchaseComponent },
   { path: ':username', component: GiveComponent }
 ];
 

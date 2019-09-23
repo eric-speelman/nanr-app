@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
-
+declare var ga;
 @Component({
   selector: 'nanr-signup',
   templateUrl: './signup.component.html',
@@ -14,10 +14,16 @@ export class SignupComponent {
   }
 
   signedup() {
-    if (this.redirect.indexOf('s/') >= 0) {
-      this.router.navigateByUrl('s/app/purchase', {state: {redirect: this.redirect}});
+    if (this.redirect && this.redirect.indexOf('s/') >= 0) {
+      ga('send', 'event', 'account', 'signup', 'stand');
+      this.router.navigateByUrl('s/ap/purchase', {state: {redirect: this.redirect}});
     } else {
-      this.router.navigateByUrl('account/purchase', {state: {redirect: this.redirect}});
+      ga('send', 'event', 'account', 'signup', 'app');
+      this.router.navigateByUrl('', {state: {isSignup: true}});
     }
+  }
+
+  login() {
+    this.router.navigateByUrl('account/login', {state: {redirect: this.redirect}});
   }
 }

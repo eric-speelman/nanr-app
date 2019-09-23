@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService, SessionModel } from 'src/app/core';
+import { AuthService } from 'src/app/core';
 
 @Component({
   selector: 'nanr-login',
@@ -19,6 +19,10 @@ export class LoginComponent {
     } else {
       this.router.navigate(['account']);
     }
+  }
+
+  signup() {
+    this.router.navigate(['account/signup']);
   }
 
 }

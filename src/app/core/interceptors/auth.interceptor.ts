@@ -7,7 +7,10 @@ import { catchError } from 'rxjs/operators';
 export class AuthInterceptor implements HttpInterceptor {
   constructor(private router: Router) {}
   intercept(req: HttpRequest<any>, next: HttpHandler) {
-    if (req.url.endsWith('api/login')) {
+    if (req.url.endsWith('api/login') ||
+        req.url.endsWith('api/account/reset-password') ||
+        req.url.endsWith('api/account/reset-password-set') ||
+        req.url.endsWith('api/stand')) {
       return next.handle(req);
     }
     const sessionId = window.localStorage.getItem('session');

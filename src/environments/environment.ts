@@ -5,7 +5,9 @@
 export const environment = {
   production: false,
   apiUrl: 'http://localhost:5000/api/',
-  signupUrl: 'http://localhost:4200/signup'
+  signupUrl: 'http://localhost:4200/signup',
+  nanrStandUrl: 'http://localhost:4200/s/',
+  buttonUrl: 'http://localhost:4200/assets/tags/button.html'
 };
 
 /*

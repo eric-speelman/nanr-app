@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { SessionModel, SignupResponseModel } from './models';
 
 @Injectable({
@@ -18,5 +18,15 @@ export class AuthService {
   signup(info: {email: string, username: string, password: string}) {
     const url = `${environment.apiUrl}signup`;
     return this.http.post<SignupResponseModel>(url, info);
+  }
+
+  resetPassword(email: string) {
+    const url = `${environment.apiUrl}account/reset-password`;
+    return this.http.post(url, {email});
+  }
+
+  resetPasswordSet(reset: {token: string, password: string}) {
+    const url = `${environment.apiUrl}account/reset-password-set`;
+    return this.http.post(url, reset);
   }
 }

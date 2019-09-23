@@ -1,9 +1,51 @@
-<nanr-app-frame selected="creators">
-  <div *ngIf="buttonTag$ | async as buttonTag">
-    <h3>Adding a Nanr button to your site is easy!</h3>
-      <div>Just add this script tag anywhere on your site.</div>
+<nanr-app-frame selected="creators" [loading]="!(tag$ | async)">
+  <div *ngIf="tag$ | async as tag">
+    <h2>So many great ways to start collecting Nanrs and monetize your content!</h2>
+    <div>Not sure how to get started with the Nanr platform? Send us an email at <a href="mailto:support@nanr.io">support@nanr.io</a> or head over to our <a [routerLink]="['/account/contact']">contact</a> page</div>
+    <br />
+    <mat-divider></mat-divider>
+    <h3>I have a blog or website</h3>
+    <div fxLayout="column" fxLayoutGap="8px">
+      <div>Add this script tag to the head or body of your blog or webiste.</div>
       <div class="code">{{scriptTag}}</div>
-      <div>Then add this tag wherever you want a Nanr button to appear</div>
-      <div class="code">{{buttonTag}}</div>
+      <div>Then add this tag wherever you want a Nanr button to appear.</div>
+      <div class="code">{{generateButtonTag(tag.id)}}</div>
+      <strong>Optional Properties</strong>
+      <div><strong>nanr-size</strong>The size of the button. Must be larger then 40 and defaults to 54</div>
+      <div><strong>nanr-pageId</strong>his can be any string that identifies the page.</div>
+    </div>
+    <mat-divider></mat-divider>
+    <h3>I have social media or other platform</h3>
+    <div fxLayout="column" fxLayoutGap="8px">
+      <div>Just direct people to this link and they will be taken to your Nanr stand where they can send you Nanrs</div>
+      <div class="code">{{generateStandLink(tag.username)}}</div>
+    </div>
+    <mat-divider></mat-divider>
+    <h3>I Have Premium Content</h3>
+    <div fxLayout="column" fxLayoutGap="8px">
+      <div>You can use the Nanr platform to block content until the user has reached a minimum donation.</div>
+      <div>Add this script tag to the head or body of your blog or webiste.</div>
+      <div class="code">{{scriptTag}}</div>
+      <div>Call the require function. If the user hasn't reached the minimum donation a overlay will be rendered blocking your content and allowing the user to donate</div>
+      <div class="code"><pre>{{generateRequireTag(tag.username)}}</pre></div>
+      <div><strong>username</strong> - This should be set to your username</div>
+      <div><strong>pageCnt</strong> - This is minimum donation required to view the page</div>
+      <div><strong>pageId</strong> - This can be any string that identifies the page.</div>
+      <div><strong>title</strong> (optional) - Defines the title to display on the Nanr Wall</div>
+      <div><strong>text</strong> (optional) - Defines the text to display on the Nanr Wall</div>
+      <div><strong>background</strong> (optional) - Can be set to 'nanr', 'lines' or 'solid'. Defines the background pattern.</div>
+    </div>
+    <mat-divider></mat-divider>
+    <h3>I Need a Custom Solution</h3>
+    <div fxLayout="column" fxLayoutGap="8px">
+      <div>We make it easy to integrate Nanr into any platform.</div>
+      <div>Follow the directions in the "I have a blog or website" section to add one or more Nanr buttons to your platform</div>
+      <div>Add this script to your page and the nanrEvent function will be called after each Nanr button is initialized or clicked</div>
+      <div class="code"><pre>{{generateCallbackTag()}}</pre></div>
+      <div><strong>loggedIn</strong> - Will be set to true or false to specify if the user is logged into a Nanr account</div>
+      <div><strong>pageNanrs</strong> - The number of Nanrs the current users has given on the specified page. Will be null if no user is logged in.</div>
+      <div><strong>totalNanrs</strong> - The total number of Nanrs the current users has given to you. Will be null if no user is logged in.</div>
+      <div><strong>pageId</strong> - The pageId specified in the nanr button</div>
+    </div>
   </div>
 </nanr-app-frame>

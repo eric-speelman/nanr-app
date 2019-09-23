@@ -1,9 +1,12 @@
-<form [formGroup]="signupForm" (ngSubmit)="signup()">
+<form [formGroup]="signupForm" (ngSubmit)="signup()" class="signupForm">
   <mat-card>
-    <mat-card-header>
-        <mat-card-title>Signup</mat-card-title>
-    </mat-card-header>
     <mat-card-content fxLayout="column" fxLayoutGap="8px">
+      <div fxLayout="row" fxLayoutAlign="center center">
+        <img src="/assets/img/logos/logo-black.png" />
+      </div>
+      <h2>...because little things add up</h2>
+      <div>Nanr enables you to support anyone by giving them a nano-contribution - which can later be exchanged by the recipient for cash.</div>
+      <h2>Join the Nanrlution today!</h2>
       <mat-form-field>
         <input matInput placeholder="Email" autocomplete="email" formControlName="email">
       </mat-form-field>
@@ -21,10 +24,20 @@
       <mat-form-field>
           <input type="password" matInput placeholder="Confirm Password" formControlName="confirmPassword">
       </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Referrer (optional)" formControlName="referrer">
+      </mat-form-field>
+      <div class="error" *ngIf="(serverErrors$ | async).referrer">No one exists with that username</div>
       <div class="error" *ngIf="(submitted$ | async) && !(passwordMatch$ | async)">Passwords don't match</div>
+      <mat-checkbox formControlName="tos">I agree to the <a href="/assets/tos.html">terms of service</a></mat-checkbox>
+      <div class="error" *ngIf="(submitted$ | async) && signupForm.controls.tos.errors">Please accept the TOS</div>
     </mat-card-content>
     <mat-card-actions>
-        <button mat-raised-button color="primary" type="submit" [disabled]="loading$ | async">Signup</button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="loading$ | async" class="full-width">Signup</button>
+        <br /><br/>
+        <div>Already have an account? <a href="javascript:void(0)" (click)='loginClick()'>Login</a></div>
+        <br/><br />
+        <a href="https://nanr.io">Learn More</a>
     </mat-card-actions>
   </mat-card>
 </form>

@@ -1,11 +1,14 @@
 <div fxLayout="row" class="full-width full-height" fxLayoutAlign="center center">
-    <form class="login-form" fxFlex="0 1 600px" [formGroup]="loginForm" (ngSubmit)="login()">
+    <form class="login-form" fxFlex="0 1 600px" [formGroup]="loginForm" (ngSubmit)="login()" *ngIf="!(isResetting$ | async)">
       <mat-card class="full-width">
-        <mat-card-header>
-          <mat-card-title>Login</mat-card-title>
-        </mat-card-header>
         <mat-card-content>
           <div fxLayout="column">
+            <div fxLayout="row" fxLayoutAlign="center center">
+                <img src="/assets/img/logos/logo-black.png" />
+            </div>
+            <div fxLayout="row" fxLayoutAlign="center center">
+              <h2>Welcome Back!</h2>
+            </div>
             <mat-form-field>
               <input matInput placeholder="Email" autocomplete="email" formControlName="email"/>
             </mat-form-field>
@@ -16,9 +19,43 @@
           </div>
         </mat-card-content>
         <mat-card-actions>
-          <button type="submit" mat-raised-button color="primary" *ngIf="!(isLoading$ | async)">Login</button>
-          <button mat-raised-button color="primary" *ngIf="(isLoading$ | async)" disabled="true">Logging in...</button>
+          <button type="submit" mat-raised-button color="primary" *ngIf="!(isLoading$ | async)" class="full-width">Login</button>
+          <button mat-raised-button color="primary" *ngIf="(isLoading$ | async)" disabled="true" class="full-width">Logging in...</button>
+          <br /><br />
+          <div>Don't have an account? <a href="javascript:void(0)" (click)="signupClick()">Signup</a></div>
+          <div><a href="javascript:void(0)" (click)="resetStart()">Forgot your password?</a></div>
         </mat-card-actions>
       </mat-card>
     </form>
+    <form class="reset-form" fxFlex="0 1 600px" [formGroup]="resetForm" (ngSubmit)="reset()" *ngIf="(isResetting$ | async) && !(resetComplete$ | async)">
+      <mat-card>
+        <mat-card-content>
+        <div fxLayout="column">
+          <div fxLayout="row" fxLayoutAlign="center center">
+            <img src="/assets/img/logos/logo-black.png" />
+          </div>
+            <div fxLayout="row" fxLayoutAlign="center center">
+              <h2>Password Reset</h2>
+            </div>
+            <mat-form-field>
+              <input matInput placeholder="Email" autocomplete="email" formControlName="email"/>
+            </mat-form-field>
+            <div class="error" *ngIf="(resetSubmitted$ | async) && resetForm.controls.email.errors">Please enter your email address</div>
+          </div>
+        </mat-card-content>
+      <mat-card-actions>
+        <button type="submit" mat-raised-button color="primary" [disabled]="isLoading$ | async" class="full-width">Reset Password</button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+  <mat-card *ngIf="resetComplete$ | async">
+    <mat-card-content>
+      <div fxLayout="column">
+        <div fxLayout="row" fxLayoutAlign="center center">
+          <img src="/assets/img/logos/logo-black.png" />
+        </div>
+      </div>
+      <h2>Please check your email for password a reset link.</h2>
+      </mat-card-content>
+  </mat-card>
 </div>

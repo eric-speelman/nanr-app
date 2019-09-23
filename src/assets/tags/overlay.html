@@ -1,0 +1,177 @@
+<html>
+  <head>
+    <style>
+      html {
+        box-sizing: border-box;
+    }
+  body { font-family: Roboto, "Helvetica Neue", sans-serif; }
+  *, *:before, *:after {
+    box-sizing: inherit;
+  }
+      body {
+        padding: 0px;
+        margin: 0px;
+        width: 100%;
+      }
+
+      #overlay {
+        height: 50%;
+        background-color: rgb(100, 100, 100);
+      }
+
+      .nanr {
+        opacity: 0.8;
+        background-image: url('/assets/img/banana-shadow.svg');
+        background-size: 54px 54px;
+      }
+
+      .lines {
+        background-image: url('data:image/svg+xml;charset=utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cdefs%3E%3Cpattern%20id%3D%22a%22%20patternUnits%3D%22userSpaceOnUse%22%20width%3D%225%22%20height%3D%225%22%20patternTransform%3D%22rotate(45)%22%3E%3Cpath%20stroke%3D%22%23000%22%20d%3D%22M1%200v5%22%2F%3E%3C%2Fpattern%3E%3C%2Fdefs%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22url(%23a)%22%2F%3E%3C%2Fsvg%3E');
+        content: '';
+        opacity: 0.8;
+      }
+
+      #panel {
+        height: 50%;
+        width: 100%;
+        background-color: #fafafa;
+        position: absolute;
+        left: 0px;
+      }
+
+      #top-bar {
+        height: 24px;
+        width: 100%;
+        background-color: #3f51b5;
+      }
+
+      #content {
+        padding: 8px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: calc(100% - 24px);
+      }
+      #title {
+        padding: 8px;
+        margin: 0px;
+      }
+      .title-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+      }
+
+      #button {
+        width: 100px;
+        height: 100px;
+        margin-top: 16px;
+        margin-bottom: 16px;
+      }
+    </style>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div id="overlay"></div>
+    <div id="panel">
+      <div id="top-bar"></div>
+      <div id="content">
+        <div class="title-container">
+          <h2 id="title"></h2>
+        </div>
+        <div class="title-container">
+          <div id="text"></div>
+        </div>
+        <div class="title-container">
+          <iframe src="/assets/tags/button.html" scrolling="no" frameborder="0" id="button"></iframe>
+        </div>
+        <div class="title-container">
+          <div id="req"></div>
+        </div>
+      </div>
+    </div>
+    <script>
+      let button = null;
+      let params = null;
+      document.addEventListener('DOMContentLoaded', function () {
+        button = document.getElementById('button');
+        window.onresize = size;
+        size();
+      });
+      function size() {
+        let panel = document.getElementById('panel');
+        panel.style.top = Math.floor(window.innerHeight / 2) + 'px';
+      }
+      function handleMessage(message) {
+        var msgObj = JSON.parse(message.data);
+        if(msgObj) {
+          if (msgObj.type === 'wall') {
+            params = msgObj;
+            if (params.title) {
+              params.title = params.title.replace(/[^A-Za-z0-9@#_-]/, '');
+            } else {
+              params.title = "Premium Content Ahead"
+            }
+            if (params.text) {
+              params.text = params.text.replace(/[^A-Za-z0-9@#_-]/, '');
+            } else {
+              params.text = "Little things go a long way. Just a few Nanrs are needed to view this content."
+            }
+            if (!params.background) {
+              params.background = 'nanr';
+            }
+            params.background = params.background.toLowerCase();
+            if (params.background === 'line' || params.background === 'lines') {
+              document.getElementById('overlay').classList.add('lines');
+            } else if(params.background !== 'solid') {
+              document.getElementById('overlay').classList.add('nanr');
+            }
+            document.getElementById("title").innerHTML = params.title;
+            document.getElementById("text").innerHTML = params.text;
+            button.contentWindow.postMessage(JSON.stringify({
+              type: 'tag',
+              tagId: msgObj.username,
+              pageId: msgObj.pageId,
+              page: msgObj.page,
+              referrer: msgObj.referrer
+            }), '*');
+          }
+          else if (msgObj.type !== 'ready') {
+            if (msgObj.type === 'nanr') {
+              if (genReq(msgObj)) {
+                window.parent.postMessage(JSON.stringify({
+                  type: 'closeWall'
+                }), '*');
+              } else {
+                window.parent.postMessage(JSON.stringify({
+                  type: 'showWall'
+                }), '*');
+              }
+            }
+            if (message.source === button.contentWindow) {
+              window.parent.postMessage(message.data, '*');
+            } else {
+              button.contentWindow.postMessage(message.data, '*')
+            }
+          } else {
+            window.parent.postMessage(JSON.stringify({
+              type: 'wallReady'
+            }), '*');
+          }
+        }
+      }
+
+      function genReq(nanrs) {
+        if (params.pageCnt) {
+          if (params.pageCnt > nanrs.pageNanrCount) {
+            document.getElementById('req').innerHTML = 'Only ' + (params.pageCnt - nanrs.pageNanrCount) + ' more to go!';
+            return false;
+          }
+          return true;
+        }
+      }
+      window.addEventListener('message', handleMessage, false);
+    </script>
+
+  </body>
+</html>
