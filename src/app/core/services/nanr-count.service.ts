@@ -7,7 +7,7 @@ import { AccountService } from './account.service';
 })
 export class NanrCountService {
   private nanrCount$ = new BehaviorSubject<number>(0);
-  private count: number;
+  count: number;
   constructor(private accountService: AccountService) {
     if (window.localStorage.getItem('session')) {
       this.accountService.get().subscribe(user => {
@@ -26,7 +26,10 @@ export class NanrCountService {
   }
 
   minus(amount: number = 1) {
-    this.count--;
+    this.count -= amount;
+    if (this.count < 0) {
+      this.count = 0;
+    }
     this.nanrCount$.next(this.count);
   }
 

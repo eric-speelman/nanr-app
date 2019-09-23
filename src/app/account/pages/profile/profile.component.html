@@ -13,7 +13,7 @@
         <mat-form-field class="example-full-width">
           <input matInput placeholder="Tagline" formControlName="tagline" />
         </mat-form-field>
-        <div class="error" *ngIf="(isTaglineSubmitted$ | async) && (taglineForm.controls.tagline.errors)">Tagline can't be longer than 125 characters</div>
+        <div class="error" *ngIf="(isTaglineSubmitted$ | async) && (taglineForm.controls.tagline.errors)">Tagline can't be longer than 100 characters</div>
       </div>
       <button mat-mini-fab color="primary" (click)="editTagline()" *ngIf="!(isEditingTagline$ | async) else save">
         <mat-icon>edit</mat-icon>
@@ -29,7 +29,7 @@
         <mat-form-field class="example-full-width">
           <textarea matInput placeholder="Bio" formControlName="bio" rows="10"></textarea>
         </mat-form-field>
-        <div class="error" *ngIf="(isBioSubmitted$ | async) && (bioForm.controls.bio.errors)">Bio can't be longer than 500 characters</div>
+        <div class="error" *ngIf="(isBioSubmitted$ | async) && (bioForm.controls.bio.errors)">Bio can't be longer than 250 characters</div>
       </div>
       <button mat-mini-fab color="primary" (click)="editBio()" *ngIf="!(isEditingBio$ | async) else save">
         <mat-icon>edit</mat-icon>

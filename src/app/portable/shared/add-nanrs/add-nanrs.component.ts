@@ -13,7 +13,7 @@ declare var SqPaymentForm;
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddNanrsComponent implements AfterViewInit {
-  @Output() purchased = new EventEmitter();
+  @Output() purchased = new EventEmitter<number>();
   paymentForm: any;
   user: UserModel;
   nanrAmount: number;
@@ -118,7 +118,7 @@ export class AddNanrsComponent implements AfterViewInit {
         this.loading$.next(false);
         if (res.success) {
           this.nanrCount.add(res.nanrs);
-          this.purchased.next();
+          this.purchased.next(res.nanrs);
         } else {
           this.error$.next(true);
         }
