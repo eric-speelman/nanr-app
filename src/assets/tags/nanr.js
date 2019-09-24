@@ -62,7 +62,6 @@ var nanr = (() => {
           let tagId = el.getAttribute('nanr-id');
           let pageId = el.getAttribute('nanr-pageId') || el.getAttribute('nanr-pageId') || null;
           let buttonSize = parseInt(el.getAttribute('nanr-size'));
-          visible = visible.toLowerCase();
           nanrButtons[tagId] = {
             pageId: pageId
           };
