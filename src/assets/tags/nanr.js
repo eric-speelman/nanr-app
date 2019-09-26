@@ -127,7 +127,6 @@ var nanr = (() => {
             }
           } else if(msgObj.type === 'closeWall') {
             wallFrame.style.display = 'none';
-            console.log(bodyOverflow);
             document.body.style.overflow = bodyOverflow;
           } else if(msgObj.type === 'showWall') {
             bodyOverflow = document.body.style.overflow || 'scroll';

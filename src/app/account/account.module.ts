@@ -16,6 +16,7 @@ import { WelcomeDialogComponent } from './pages/home/welcome-dialog/welcome-dial
 import { ProfileComponent } from './pages/profile/profile.component';
 import { ColorChromeModule } from 'ngx-color/chrome';
 import { MatRadioModule } from '@angular/material/radio';
+import { ConfirmComponent } from './pages/confirm/confirm.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { MatRadioModule } from '@angular/material/radio';
     ContactComponent,
     PasswordResetComponent,
     WelcomeDialogComponent,
-    ProfileComponent
+    ProfileComponent,
+    ConfirmComponent
   ],
   imports: [
     CommonModule,

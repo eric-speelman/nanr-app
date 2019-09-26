@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { AccountService, ClickService, StandModel, UserModel, NanrCountService } from 'src/app/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable, BehaviorSubject } from 'rxjs';
@@ -12,12 +12,14 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
   styleUrls: ['./give.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GiveComponent implements OnInit {
+export class GiveComponent implements OnInit, OnDestroy {
+  size: number;
   username$: Observable<string>;
   stand$: Observable<StandModel>;
   state$ = new BehaviorSubject('default');
-  nanrs$: Observable<number>;
+  nanrs$: Observable<{value: number}>;
   buttonUrl$ = new BehaviorSubject<SafeResourceUrl>(undefined);
+  eventFunc: any;
   constructor(private sanitizer: DomSanitizer, private router: Router,
               private route: ActivatedRoute, private clickService: ClickService,
               private accountService: AccountService, private nanrCount: NanrCountService) { }
@@ -33,11 +35,19 @@ export class GiveComponent implements OnInit {
           this.sanitizer.bypassSecurityTrustResourceUrl(`${environment.buttonUrl}?tagId=${username}&page=${window.location.href}`));
         return username;
       });
-    this.nanrs$ = this.nanrCount.getCount();
+    this.nanrs$ = this.nanrCount.getCount().pipe(
+      map(value => ({value}))
+    );
     const me = this;
-    window.addEventListener('message', message => {
+    this.eventFunc = message => {
       me.handleMessage(message, me);
-    }, false);
+    };
+    window.addEventListener('message', this.eventFunc, false);
+    this.size = Math.min(window.innerHeight - 110, window.innerWidth - 110, 300);
+  }
+
+  ngOnDestroy() {
+    window.removeEventListener('message', this.eventFunc);
   }
 
   getBackground(id: string) {
@@ -79,8 +89,12 @@ export class GiveComponent implements OnInit {
           me.router.navigateByUrl('account/signup', {state: {redirect: this.router.url}});
         } else if (msgObj.type === 'addFunds') {
           me.router.navigateByUrl('s/ap/purchase', {state: {redirect: this.router.url}});
-        } else if(msgObj.type === 'nanr') {
+        } else if (msgObj.type === 'nanr') {
           me.nanrCount.minus();
+        } else if (msgObj.type === 'balance') {
+          if (this.nanrCount.count <= 0) {
+            this.nanrCount.setCount(msgObj.balance);
+          }
         }
       }
     }

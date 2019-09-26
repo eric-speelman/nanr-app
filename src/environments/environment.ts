@@ -7,7 +7,8 @@ export const environment = {
   apiUrl: 'http://localhost:5000/api/',
   signupUrl: 'http://localhost:4200/signup',
   nanrStandUrl: 'http://localhost:4200/s/',
-  buttonUrl: 'http://localhost:4200/assets/tags/button.html'
+  buttonUrl: 'http://localhost:4200/assets/tags/button.html',
+  squareAppId: 'sandbox-sq0idb-1JUoOnGGfhxgP3ukD_d5uA'
 };
 
 /*

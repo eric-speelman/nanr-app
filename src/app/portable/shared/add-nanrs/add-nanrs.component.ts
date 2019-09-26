@@ -3,6 +3,7 @@ import { PurchaseService, AccountService, UserModel, NanrCountService } from 'sr
 import { FormBuilder } from '@angular/forms';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 declare var SqPaymentForm;
 
@@ -13,7 +14,7 @@ declare var SqPaymentForm;
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddNanrsComponent implements AfterViewInit {
-  @Output() purchased = new EventEmitter();
+  @Output() purchased = new EventEmitter<number>();
   paymentForm: any;
   user: UserModel;
   nanrAmount: number;
@@ -54,7 +55,7 @@ export class AddNanrsComponent implements AfterViewInit {
       return;
     }
     this.paymentForm = new SqPaymentForm({
-      applicationId: 'sandbox-sq0idb-1JUoOnGGfhxgP3ukD_d5uA',
+      applicationId: environment.squareAppId,
       inputClass: 'sq-input',
       autoBuild: false,
       inputStyles: [{
@@ -118,7 +119,7 @@ export class AddNanrsComponent implements AfterViewInit {
         this.loading$.next(false);
         if (res.success) {
           this.nanrCount.add(res.nanrs);
-          this.purchased.next();
+          this.purchased.next(res.nanrs);
         } else {
           this.error$.next(true);
         }

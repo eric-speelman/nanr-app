@@ -23,6 +23,28 @@ export class IntegrateComponent implements OnInit {
     return `<div nanr-id="${id}" nanr-size="54"></div>`;
   }
 
+  generateRequireTag(id: string) {
+    return `<script>
+    nanr.require({
+        username: '${id}',
+        pageCnt: <page-count>,
+        pageId: '<page-id>',
+        title: '<title>',
+        text: '<text>',
+        background: '<background>'
+    });
+  </script>`;
+  }
+
+  generateCallbackTag() {
+    return `<script>
+    function nanrEvent({ loggedIn, pageNanrs, totalNanrs, pageId }) {
+      //Add logic to integreate into your platform here
+    }
+    nanr.onNanr(nanrEvent);
+  </script>`;
+  }
+
   generateStandLink(username: string) {
     return `${environment.nanrStandUrl}${username.toLowerCase()}`;
   }
