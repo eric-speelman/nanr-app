@@ -76,10 +76,10 @@
         let nanrCnt = null;
         document.getElementById('tag').onclick = () => {
             let sessionId = getSessionId();
-            if (!tagId) {
+            if (!tagId && !demo) {
                 jsError('Tag id not found');
             }
-            if (!sessionId) {
+            if (!sessionId && !demo) {
                 login();
                 return;
             }
