@@ -37,7 +37,7 @@ var nanr = (() => {
   let wallReady = false;
   let nanrButtons = [];
   let bodyOverflow = null;
-  document.addEventListener('DOMContentLoaded', function () {
+  function init() {
       let isStand = getUrlParameter('stand');
       if (isStand) {
         width = '100%';
@@ -81,7 +81,7 @@ var nanr = (() => {
           let loginContainer = document.createElement('div');
           loginContainer.style.display = 'none';
       });
-  }, false);
+  };
   let buttonSources = [];
   function handleMessage(message) {
       var msgObj = JSON.parse(message.data);
@@ -142,10 +142,14 @@ var nanr = (() => {
     var results = regex.exec(location.search);
     return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
   }
-
+  if (document.readyState !== 'loading') {
+    init();
+  } else {
+    document.addEventListener('DOMContentLoaded', inti);
+  }
   window.addEventListener('message', handleMessage, false);
   let nanrInterface = {
-    onNanr: (callback, virtualButtons) => {
+    onNanr: (callback) => {
       nanrCallback = callback;
       if (nanrCnt) {
         nanrCallback(nanrCnt);
