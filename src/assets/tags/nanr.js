@@ -43,12 +43,16 @@ var nanr = (() => {
         width = '100%';
         heigh = '100%';
       } else {
-        if (window.innerWidth < 840) {
+        if (window.innerWidth < 600) {
           width = '100%';
-          height = '100%'
         } else {
           width = '600px';
-          height = '800px';
+        }
+
+        if(window.innerHeight < 15000) {
+          height = '100%';
+        } else {
+          height = '1000px';
         }
       }
       let frames = [loginFrame, fundsFrame];
@@ -88,6 +92,7 @@ var nanr = (() => {
       if (msgObj) {
           if (msgObj.type === 'showLogin') {
               loginFrame.style.display = 'block';
+              loginFrame.style.top = Math.min(window.scrollY) + 'px';
           } else if (msgObj.type === 'close') {
               loginFrame.style.display = 'none';
               fundsFrame.style.display = 'none';
