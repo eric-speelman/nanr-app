@@ -10,6 +10,5 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    ga('create', 'UA-148453051-1', 'auto');
   }
 }

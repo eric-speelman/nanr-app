@@ -11,7 +11,6 @@ export class AddComponent {
   @ViewChild('frame', {static: true}) frame: PortableFrameComponent;
 
   close() {
-    ga('send', 'event', 'nanr', 'purchase', 'portable');
     this.frame.close();
   }
 }

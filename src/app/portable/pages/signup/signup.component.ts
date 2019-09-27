@@ -13,7 +13,6 @@ export class SignupComponent {
   }
 
   signedup() {
-    ga('send', 'event', 'account', 'signup', 'portable');
     this.router.navigate(['portable/add']);
   }
 

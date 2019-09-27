@@ -17,7 +17,6 @@ export class PurchaseComponent implements OnInit {
   }
 
   purchased() {
-    ga('send', 'event', 'nanr', 'purchase', 'app');
     this.purchased$.next(true);
   }
 
