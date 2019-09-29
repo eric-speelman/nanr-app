@@ -112,7 +112,7 @@ export class AddNanrsComponent implements AfterViewInit {
   }
 
   onGetCardNonce(event, me: UserModel) {
-    if (this.billingForm.controls.useSaved && me.hasBilling) {
+    if (this.billingForm.controls.useSaved.value && me.hasBilling) {
       this.loading$.next(true);
       this.purchaseService.purchase({amount: this.selected$.value, useSaved: true,
         refill: this.billingForm.controls.rebill.value}).subscribe(res => {
