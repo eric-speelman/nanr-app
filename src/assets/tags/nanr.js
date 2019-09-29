@@ -92,7 +92,7 @@ var nanr = (() => {
       if (msgObj) {
           if (msgObj.type === 'showLogin') {
               loginFrame.style.display = 'block';
-              loginFrame.style.top = Math.min(window.scrollY) + 'px';
+              //CloginFrame.style.top = Math.min(window.scrollY) + 'px';
           } else if (msgObj.type === 'close') {
               loginFrame.style.display = 'none';
               fundsFrame.style.display = 'none';
