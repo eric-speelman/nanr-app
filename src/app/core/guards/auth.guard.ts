@@ -11,7 +11,8 @@ export class AuthGuard implements CanActivate {
   canActivate() {
     const session = window.localStorage.getItem('session');
     if (!session) {
-      this.router.navigate(['account/signup']);
+      const redirect = this.router.url;
+      this.router.navigateByUrl('account/signup', {state: {redirect}});
       return false;
     }
     return true;
