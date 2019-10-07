@@ -19,4 +19,7 @@ export class LoginComponent {
   signup() {
     this.router.navigate(['portable/signup']);
   }
+  loggedIn() {
+    this.router.navigate(['portable/add']);
+  }
 }

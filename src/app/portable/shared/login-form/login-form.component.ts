@@ -34,11 +34,7 @@ export class LoginFormComponent {
     this.auth.login(this.loginForm.value).subscribe(res => {
       window.localStorage.setItem('session', res.id);
       this.isLoading$.next(false);
-      if (res.user.balance <= 0) {
-        this.router.navigate(['portable/add']);
-      } else {
-        this.loggedIn.next(res);
-      }
+      this.loggedIn.next(res);
     },
     () => {
       this.hasError$.next(true);
